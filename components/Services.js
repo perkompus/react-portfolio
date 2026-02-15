@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     leftColumn: {
         flex: 1,
         minWidth: 300,
+        paddingLeft: '15%', // Indent 15%
     },
     rightColumn: {
         flex: 1.5, // Check screenshot, right side takes slightly more space or equal
@@ -63,8 +64,8 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 100, // Massive size
-        fontFamily: 'Inter_900Black',
+        fontSize: 95, // Reduced by 5
+        fontFamily: 'Inter_700Bold', // Reduced boldness by 2 units
         letterSpacing: -5,
         textTransform: 'uppercase',
         lineHeight: 100,

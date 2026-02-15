@@ -58,26 +58,26 @@ const styles = StyleSheet.create({
         paddingHorizontal: 40,
         paddingTop: 100,
         paddingBottom: 40,
-        backgroundColor: '#f9f9f9', // Light grey background like screenshot
+        backgroundColor: '#f9f9f9', // Updated to light grey based on feedback
+        overflow: 'hidden', // Prevent overlaps
     },
     contentContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        gap: 60,
+        gap: 0, // Removed gap to control via flex/width
         marginBottom: 100,
         alignItems: 'flex-start',
     },
     ctaContainer: {
-        flex: 1,
-        minWidth: 300,
+        flex: 1.5, // Give it more space relative to links
+        paddingLeft: '13%', // 13% indent from left
     },
     ctaText: {
         color: Colors.text,
-        fontSize: 60,
-        fontFamily: 'Inter_900Black',
-        lineHeight: 60,
-        letterSpacing: -2,
+        fontSize: 58, // Reduced by 2 as requested
+        fontFamily: 'Inter_700Bold', // Reduced boldness
+        lineHeight: 70,
+        letterSpacing: -1,
         textTransform: 'uppercase',
     },
     button: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_600SemiBold',
     },
     linksContainer: {
-        flex: 1,
+        flex: 1, // Smaller ratio to keep it closer to CTA if needed, or just let them sit side by side
         minWidth: 300,
         flexDirection: 'row',
         flexWrap: 'wrap',

@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 100,
-        fontFamily: 'Inter_900Black',
-        marginBottom: 80,
-        letterSpacing: -5,
+        fontSize: 100, // Updated to 100 based on feedback
+        fontFamily: 'Inter_700Bold', // Reduced boldness
+        marginBottom: 60,
+        letterSpacing: -2,
         textAlign: 'center',
         textTransform: 'uppercase',
     },
@@ -120,13 +120,13 @@ const styles = StyleSheet.create({
     title: {
         color: Colors.text,
         fontSize: 24,
-        fontFamily: 'Inter_700Bold',
+        fontFamily: 'Inter_600SemiBold', // Reduced boldness from Bold to SemiBold
         marginBottom: 10,
         lineHeight: 32,
     },
     preview: {
         color: Colors.textSecondary,
-        fontSize: 16,
+        fontSize: 15, // Reduced from 16
         lineHeight: 24,
         marginBottom: 20,
         fontFamily: 'Inter_400Regular',

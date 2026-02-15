@@ -5,10 +5,7 @@ import Animated, { useAnimatedStyle, withTiming, useSharedValue } from 'react-na
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 
 const faqs = [
-    { i: 0, q: 'Can you work with wireframes or our existing designs?', a: 'Yes, absolutely. I can work with your provided wireframes, mockups, or existing designs to ensure consistency and alignment with your vision.' },
-    { i: 1, q: 'What happens after the design is ready & I approve it?', a: 'Once approved, we move to the development phase where we bring the designs to life using modern web technologies.' },
-    { i: 2, q: 'Do you charge for additional revisions?', a: 'We include a set number of revisions in our initial agreement. Additional revisions may incur extra costs depending on the complexity.' },
-    { i: 3, q: 'I have an agency. Can I outsource work to you?', a: 'Yes, I promote white-label services for agencies looking to scale their production capabilities.' },
+    // Duplicate entries removed
     { id: 0, question: 'Can you work with wireframes or our existing designs?', answer: 'Yes, absolutely. I can work with your provided wireframes, mockups, or existing designs to ensure consistency and alignment with your vision.' },
     { id: 1, question: 'What happens after the design is ready & I approve it?', answer: 'Once approved, we move to the development phase where we bring the designs to life using modern web technologies.' },
     { id: 2, question: 'Do you charge for additional revisions?', answer: 'We include a set number of revisions in our initial agreement. Additional revisions may incur extra costs depending on the complexity.' },
@@ -66,6 +63,7 @@ const styles = StyleSheet.create({
     leftColumn: {
         flex: 1,
         minWidth: 300,
+        paddingLeft: '15%', // Indent 15%
     },
     rightColumn: {
         flex: 1.5,
@@ -73,11 +71,11 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 150, // Massive FAQ text
-        fontFamily: 'Inter_900Black',
-        letterSpacing: -10,
+        fontSize: 95, // Matched with Client Reviews
+        fontFamily: 'Inter_700Bold',
+        letterSpacing: -5, // Matched with Client Reviews
         textTransform: 'uppercase',
-        lineHeight: 150,
+        lineHeight: 90, // Matched with Client Reviews
     },
     item: {
         borderBottomWidth: 1,

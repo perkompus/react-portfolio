@@ -1,31 +1,73 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image as RNImage } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, Image as RNImage, ScrollView, Dimensions, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
 
 const reviews = [
     { id: 1, name: 'Juli Fulk', role: 'Founder & CEO', company: 'Dcode Agency', text: 'Jaxon is a true professional. He delivered the project on time and exceeded our expectations. His attention to detail is unmatched.' },
+    { id: 2, name: 'Alex Johnson', role: 'Product Manager', company: 'TechFlow', text: 'The design system delivered was comprehensive and easy to implement. It significantly sped up our development process.' },
+    { id: 3, name: 'Sarah Lee', role: 'Marketing Director', company: 'GrowthCo', text: 'Incredible work on the rebranding. The new visual identity perfectly captures our company values and mission.' },
 ];
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const CARD_WIDTH = SCREEN_WIDTH > 768 ? (SCREEN_WIDTH - 140) / 2 : SCREEN_WIDTH * 0.8; // Show 2 on desktop, 1 on mobile
+
 export default function Reviews() {
+    const scrollViewRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    // Auto-scroll logic
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const nextIndex = (activeIndex + 1) % reviews.length;
+            setActiveIndex(nextIndex);
+            scrollViewRef.current?.scrollTo({ x: nextIndex * (CARD_WIDTH + 20), animated: true });
+        }, 4000); // Scroll every 4 seconds
+
+        return () => clearInterval(interval);
+    }, [activeIndex]);
+
+    const handleScroll = (direction) => {
+        let nextIndex = direction === 'next' ? activeIndex + 1 : activeIndex - 1;
+        if (nextIndex >= reviews.length) nextIndex = 0;
+        if (nextIndex < 0) nextIndex = reviews.length - 1;
+
+        setActiveIndex(nextIndex);
+        scrollViewRef.current?.scrollTo({ x: nextIndex * (CARD_WIDTH + 20), animated: true });
+    };
+
     return (
         <View style={styles.container}>
-            <View style={styles.contentContainer}>
-                {/* Left Side: Title */}
-                <View style={styles.leftColumn}>
+            {/* Header Row: Title + Arrows */}
+            <View style={styles.headerRow}>
+                <View style={styles.titleContainer}>
                     <Text style={styles.sectionHeader}>CLIENT</Text>
                     <Text style={styles.sectionHeader}>REVIEWS</Text>
                 </View>
 
-                {/* Right Side: Reviews */}
-                <View style={styles.rightColumn}>
-                    <View style={styles.navButtons}>
-                        <View style={styles.navButton}><Text style={styles.navArrow}>←</Text></View>
-                        <View style={styles.navButton}><Text style={styles.navArrow}>→</Text></View>
-                    </View>
+                <View style={styles.navButtons}>
+                    <Pressable onPress={() => handleScroll('prev')} style={styles.navButton}>
+                        <Text style={styles.navArrow}>←</Text>
+                    </Pressable>
+                    <Pressable onPress={() => handleScroll('next')} style={styles.navButton}>
+                        <Text style={styles.navArrow}>→</Text>
+                    </Pressable>
+                </View>
+            </View>
 
-                    <View style={styles.reviewCard}>
+            {/* Reviews Carousel */}
+            <ScrollView
+                ref={scrollViewRef}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.scrollContent}
+                pagingEnabled={false} // Custom paging via logic
+                decelerationRate="fast"
+                snapToInterval={CARD_WIDTH + 20}
+            >
+                {reviews.map((review) => (
+                    <View key={review.id} style={[styles.reviewCard, { width: CARD_WIDTH }]}>
                         <Text style={styles.reviewText}>
-                            "Alex brought a fresh perspective to our app. His design expertise and understanding of UX made a huge difference in the final product."
+                            "{review.text}"
                         </Text>
 
                         <View style={styles.authorContainer}>
@@ -34,50 +76,44 @@ export default function Reviews() {
                                 style={styles.authorImage}
                             />
                             <View>
-                                <Text style={styles.authorName}>Juli fulk</Text>
-                                <Text style={styles.authorRole}>Founder & CEO & Dcode agency</Text>
+                                <Text style={styles.authorName}>{review.name}</Text>
+                                <Text style={styles.authorRole}>{review.role} & {review.company}</Text>
                             </View>
                         </View>
                     </View>
-                </View>
-            </View>
+                ))}
+            </ScrollView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
         paddingVertical: 100,
-        backgroundColor: Colors.background, // Alternating background if needed, but screenshot shows white/light
+        backgroundColor: Colors.background,
     },
-    contentContainer: {
+    headerRow: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
         justifyContent: 'space-between',
-        gap: 60,
+        alignItems: 'center',
+        paddingHorizontal: 40,
+        marginBottom: 60,
     },
-    leftColumn: {
-        flex: 1,
-        minWidth: 300,
-    },
-    rightColumn: {
-        flex: 1.5,
-        minWidth: 300,
+    titleContainer: {
+        paddingLeft: '15%', // Indent 15% as requested
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 100,
-        fontFamily: 'Inter_900Black',
+        fontSize: 95, // Reduced size
+        fontFamily: 'Inter_700Bold', // Reduced boldness
         letterSpacing: -5,
         textTransform: 'uppercase',
         lineHeight: 90,
     },
     navButtons: {
         flexDirection: 'row',
-        marginBottom: 40,
-        justifyContent: 'flex-end',
         gap: 10,
+        paddingRight: '15%', // Indent 15% from right to match title
     },
     navButton: {
         width: 50,
@@ -90,10 +126,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 24,
     },
+    scrollContent: {
+        paddingHorizontal: 40, // Padding for the scroll view start
+        paddingBottom: 20,
+    },
     reviewCard: {
         backgroundColor: '#f9f9f9', // Very light grey
         padding: 60,
-        borderRadius: 0, // Squared off? Screenshot looks squared
+        marginRight: 20, // Gap between cards
     },
     reviewText: {
         color: Colors.text,

@@ -3,10 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
 
 const experience = [
-    { role: 'Webflow Developer', company: 'Microsoft', period: '2023 - 2024' },
-    { role: 'Product Designer', company: 'ExxonMobile', period: '2022 - 2023' },
-    { role: 'UI/UX Designer', company: 'Berkshire Hathaway', period: '2021 - 2022' },
-    { role: 'Visual Designer', company: 'UnitedHealth Group', period: '2020 - 2021' },
+    // Duplicates removed
     { id: '1', role: 'Webflow Developer', company: 'Microsoft', period: '2023 - 2024' },
     { id: '2', role: 'Product Designer', company: 'ExxonMobile', period: '2022 - 2023' },
     { id: '3', role: 'UI/UX Designer', company: 'Berkshire Hathaway', period: '2021 - 2022' },
@@ -50,8 +47,8 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 100,
-        fontFamily: 'Inter_900Black',
+        fontSize: 95, // Reduced by 5
+        fontFamily: 'Inter_700Bold', // Reduced boldness by 2 units
         letterSpacing: -5,
         textTransform: 'uppercase',
         lineHeight: 90,
