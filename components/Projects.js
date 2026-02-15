@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         color: Colors.text,
         fontSize: 48,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 40,
         letterSpacing: -1,
     },
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     title: {
         color: Colors.text,
         fontSize: 28,
-        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
         marginBottom: 15,
     },
     description: {
@@ -81,11 +81,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 25,
         lineHeight: 28,
+        fontFamily: 'Inter_400Regular',
     },
     link: {
         color: Colors.text,
         fontSize: 16,
-        fontWeight: '600',
+        fontFamily: 'Inter_600SemiBold',
         textDecorationLine: 'underline',
     },
 });

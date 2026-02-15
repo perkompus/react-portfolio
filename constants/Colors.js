@@ -1,10 +1,10 @@
 export const Colors = {
-    background: '#050505', // Almost pure black
-    text: '#ffffff',
-    textSecondary: '#888888',
-    accent: '#ffffff', // White accent for high contrast
-    card: '#0a0a0a', // Slightly lighter black for cards
-    border: '#222222',
-    gradientStart: '#111111',
-    gradientEnd: '#050505',
+    background: '#ffffff', // Pure white
+    text: '#000000', // Pure black for high contrast
+    textSecondary: '#666666', // Dark gray for secondary text
+    accent: '#000000', // Black accent
+    card: '#ffffff', // White cards
+    border: '#e5e5e5', // Light gray border
+    gradientStart: '#f8f9fa', // Very light gray for gradients
+    gradientEnd: '#ffffff',
 };

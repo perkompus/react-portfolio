@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         color: Colors.text,
         fontSize: 48,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 40,
         letterSpacing: -1,
     },
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     question: {
         color: Colors.text,
         fontSize: 20,
-        fontWeight: '600',
+        fontFamily: 'Inter_600SemiBold',
         flex: 1,
         marginRight: 10,
     },
@@ -84,9 +84,14 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderTopColor: Colors.border,
     },
+    answerContainer: {
+        overflow: 'hidden',
+    },
     answer: {
         color: Colors.textSecondary,
         fontSize: 16,
         lineHeight: 24,
+        marginTop: 15,
+        fontFamily: 'Inter_400Regular',
     },
 });

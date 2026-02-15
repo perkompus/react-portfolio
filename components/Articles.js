@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         color: Colors.text,
         fontSize: 48,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 40,
         letterSpacing: -1,
     },
@@ -59,6 +59,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 200,
     },
+    imagePlaceholder: {
+        height: 200,
+        width: '100%',
+    },
+    content: {
+        padding: 24,
+    },
     meta: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -69,17 +76,18 @@ const styles = StyleSheet.create({
     category: {
         color: Colors.accent,
         fontSize: 14,
-        fontWeight: '600',
+        fontFamily: 'Inter_600SemiBold',
         textTransform: 'uppercase',
     },
     date: {
         color: Colors.textSecondary,
         fontSize: 14,
+        fontFamily: 'Inter_500Medium',
     },
     title: {
         color: Colors.text,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
         marginBottom: 10,
         lineHeight: 28,
         paddingHorizontal: 20,
@@ -90,11 +98,12 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         marginBottom: 16,
         paddingHorizontal: 20,
+        fontFamily: 'Inter_400Regular',
     },
     readMore: {
         color: Colors.accent,
         fontSize: 16,
-        fontWeight: '600',
+        fontFamily: 'Inter_600SemiBold',
         marginBottom: 24,
         paddingHorizontal: 20,
     },

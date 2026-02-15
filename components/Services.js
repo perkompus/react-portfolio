@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         color: Colors.text,
         fontSize: 48,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 50,
         letterSpacing: -1,
     },
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
         color: Colors.textSecondary,
         fontSize: 16,
         marginBottom: 15,
-        fontFamily: 'System',
+        fontFamily: 'Inter_400Regular',
     },
     title: {
         color: Colors.text,
         fontSize: 32,
-        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
         marginBottom: 20,
     },
     tags: {
@@ -83,11 +83,13 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 100,
         overflow: 'hidden',
-        backgroundColor: 'rgba(255,255,255,0.05)',
+        backgroundColor: 'rgba(0,0,0,0.05)',
+        fontFamily: 'Inter_500Medium',
     },
     description: {
         color: Colors.textSecondary,
         fontSize: 18,
         lineHeight: 28,
+        fontFamily: 'Inter_400Regular',
     },
 });

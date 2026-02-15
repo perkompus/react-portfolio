@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         color: Colors.text,
         fontSize: 48,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 40,
         letterSpacing: -1,
     },
@@ -59,17 +59,18 @@ const styles = StyleSheet.create({
     },
     role: {
         color: Colors.text,
-        fontSize: 18,
-        fontWeight: '600',
-        marginBottom: 4,
+        fontSize: 20,
+        fontFamily: 'Inter_700Bold',
+        marginBottom: 5,
     },
     company: {
         color: Colors.textSecondary,
-        fontSize: 14,
+        fontSize: 16,
+        fontFamily: 'Inter_500Medium',
     },
-    period: {
+    date: {
         color: Colors.textSecondary,
-        fontSize: 14,
-        fontFamily: 'System',
+        fontSize: 16,
+        fontFamily: 'Inter_400Regular',
     },
 });

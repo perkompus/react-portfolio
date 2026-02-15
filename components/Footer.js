@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     ctaText: {
         color: Colors.text,
         fontSize: 56,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 40,
         textAlign: 'center',
         letterSpacing: -2,
@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
     buttonText: {
         color: Colors.background,
         fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
     },
     linksContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
         flexWrap: 'wrap',
+        justifyContent: 'center',
         gap: 30,
         marginBottom: 40,
     },
@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
     columnHeader: {
         color: Colors.text,
         fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
         marginBottom: 20,
     },
     link: {
-        color: Colors.textSecondary,
+        color: Colors.text,
         fontSize: 16,
-        marginBottom: 12,
+        fontFamily: 'Inter_500Medium',
     },
     socialRow: {
         flexDirection: 'row',
@@ -118,5 +118,6 @@ const styles = StyleSheet.create({
     copyright: {
         color: Colors.textSecondary,
         fontSize: 14,
+        fontFamily: 'Inter_400Regular',
     },
 });

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     sectionHeader: {
         color: Colors.text,
         fontSize: 48,
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 40,
         letterSpacing: -1,
     },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         lineHeight: 36,
         marginBottom: 30,
         fontStyle: 'italic',
-        fontWeight: '500',
+        fontFamily: 'Inter_500Medium',
     },
     author: {
         marginTop: 10,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     name: {
         color: Colors.text,
         fontSize: 20,
-        fontWeight: 'bold',
+        fontFamily: 'Inter_700Bold',
     },
     role: {
         color: Colors.textSecondary,

@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
     greeting: {
         color: Colors.textSecondary,
         fontSize: 18,
-        fontWeight: '500',
+        fontFamily: 'Inter_500Medium',
         marginBottom: 15,
         letterSpacing: 0.5,
     },
     title: {
         color: Colors.text,
         fontSize: 80, // Massive text
-        fontWeight: '900',
+        fontFamily: 'Inter_900Black',
         marginBottom: 25,
         lineHeight: 85,
         letterSpacing: -2,
@@ -74,5 +74,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 32,
         maxWidth: 500,
+        fontFamily: 'Inter_400Regular',
     },
 });
