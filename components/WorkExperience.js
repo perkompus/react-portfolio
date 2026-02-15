@@ -7,22 +7,30 @@ const experience = [
     { role: 'Product Designer', company: 'ExxonMobile', period: '2022 - 2023' },
     { role: 'UI/UX Designer', company: 'Berkshire Hathaway', period: '2021 - 2022' },
     { role: 'Visual Designer', company: 'UnitedHealth Group', period: '2020 - 2021' },
-    { role: 'Graphic Designer', company: 'NovaAir Design Team', period: '2019 - 2020' },
+    { id: '1', role: 'Webflow Developer', company: 'Microsoft', period: '2023 - 2024' },
+    { id: '2', role: 'Product Designer', company: 'ExxonMobile', period: '2022 - 2023' },
+    { id: '3', role: 'UI/UX Designer', company: 'Berkshire Hathaway', period: '2021 - 2022' },
+    { id: '4', role: 'Visual Designer', company: 'UnitedHealth Group', period: '2020 - 2021' },
+    { id: '5', role: 'Graphic Designer', company: 'NovaAir Design Team', period: '2019 - 2020' },
 ];
 
 export default function WorkExperience() {
     return (
         <View style={styles.container}>
-            <Text style={styles.sectionHeader}>Work Experience</Text>
+            <View style={styles.headerContainer}>
+                <Text style={styles.sectionHeader}>WORK</Text>
+                <Text style={styles.sectionHeader}>EXPERIENCE</Text>
+            </View>
 
             <View style={styles.list}>
-                {experience.map((item, index) => (
-                    <View key={index} style={styles.item}>
-                        <View style={styles.roleContainer}>
-                            <Text style={styles.role}>{item.role}</Text>
-                            <Text style={styles.company}>{item.company}</Text>
+                {experience.map((job) => (
+                    <View key={job.id} style={styles.item}>
+                        <Text style={styles.role}>{job.role}</Text>
+
+                        <View style={styles.rightContent}>
+                            <Text style={styles.company}>{job.company}</Text>
+                            <Text style={styles.date}>{job.period}</Text>
                         </View>
-                        <Text style={styles.period}>{item.period}</Text>
                     </View>
                 ))}
             </View>
@@ -32,45 +40,55 @@ export default function WorkExperience() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 100,
         backgroundColor: Colors.background,
-        paddingVertical: 40,
+    },
+    headerContainer: {
+        alignItems: 'center',
+        marginBottom: 80,
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 48,
+        fontSize: 100,
         fontFamily: 'Inter_900Black',
-        marginBottom: 40,
-        letterSpacing: -1,
+        letterSpacing: -5,
+        textTransform: 'uppercase',
+        lineHeight: 90,
+        textAlign: 'center',
     },
     list: {
-        gap: 0,
+        maxWidth: 1000,
+        width: '100%',
+        alignSelf: 'center',
     },
     item: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: 25,
+        alignItems: 'baseline', // Align text baselines
+        paddingVertical: 40,
         borderBottomWidth: 1,
         borderBottomColor: Colors.border,
     },
-    roleContainer: {
-        flex: 1,
-    },
     role: {
         color: Colors.text,
-        fontSize: 20,
-        fontFamily: 'Inter_700Bold',
-        marginBottom: 5,
+        fontSize: 32,
+        fontFamily: 'Inter_600SemiBold',
+        flex: 1,
+        letterSpacing: -1,
+    },
+    rightContent: {
+        alignItems: 'flex-end',
     },
     company: {
-        color: Colors.textSecondary,
+        color: Colors.text,
         fontSize: 16,
-        fontFamily: 'Inter_500Medium',
+        fontFamily: 'Inter_600SemiBold',
+        marginBottom: 4,
     },
     date: {
         color: Colors.textSecondary,
-        fontSize: 16,
-        fontFamily: 'Inter_400Regular',
+        fontSize: 14,
+        fontFamily: 'Inter_500Medium',
     },
 });

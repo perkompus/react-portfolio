@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image as RNImage, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { LinearGradient } from 'expo-linear-gradient';
+import { ArrowUpRight } from 'lucide-react-native';
 
 const projects = [
     { id: 1, name: 'Brander', desc: 'Implemented user research and testing to create a visually appealing and highly functional interface.', image: 'https://framerusercontent.com/images/3wDKnQKnJmBRXN5jNErMOI4iC48.png' },
@@ -13,24 +14,29 @@ const projects = [
 export default function Projects() {
     return (
         <View style={styles.container}>
-            <Text style={styles.sectionHeader}>Projects</Text>
+            <Text style={styles.sectionHeader}>PROJECTS</Text>
 
             <View style={styles.grid}>
                 {projects.map((project) => (
-                    <Pressable key={project.id} style={styles.cardContainer}>
-                        <View style={styles.card}>
-                            <Image
+                    <View key={project.id} style={styles.cardContainer}>
+                        <View style={styles.imageContainer}>
+                            <RNImage
                                 source={{ uri: project.image }}
-                                style={styles.imagePlaceholder}
+                                style={styles.projectImage}
                                 resizeMode="cover"
                             />
-                            <View style={styles.content}>
-                                <Text style={styles.title}>{project.name}</Text>
-                                <Text style={styles.description}>{project.desc}</Text>
-                                <Text style={styles.link}>View Project →</Text>
-                            </View>
                         </View>
-                    </Pressable>
+
+                        <View style={styles.content}>
+                            <Text style={styles.title}>{project.name}</Text>
+                            <Text style={styles.description}>{project.desc}</Text>
+
+                            <Pressable style={styles.viewButton}>
+                                <Text style={styles.viewButtonText}>View Project</Text>
+                                <ArrowUpRight color={Colors.text} size={16} />
+                            </Pressable>
+                        </View>
+                    </View>
                 ))}
             </View>
         </View>
@@ -39,54 +45,76 @@ export default function Projects() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 80,
         backgroundColor: Colors.background,
-        paddingVertical: 40,
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 48,
+        fontSize: 100,
         fontFamily: 'Inter_900Black',
-        marginBottom: 40,
-        letterSpacing: -1,
+        marginBottom: 80,
+        textAlign: 'center',
+        letterSpacing: -4,
+        textTransform: 'uppercase',
     },
     grid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: 40,
+        justifyContent: 'center', // Center grid items
     },
     cardContainer: {
-        marginBottom: 10,
-    },
-    card: {
-        backgroundColor: Colors.card,
-        borderRadius: 24,
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: Colors.border,
-    },
-    imagePlaceholder: {
-        height: 250,
         width: '100%',
+        maxWidth: 600, // On desktop, approx half width minus gap
+        flexBasis: 500, // Flex basis for responsiveness
+        flexGrow: 1,
+        marginBottom: 40,
+    },
+    imageContainer: {
+        width: '100%',
+        height: 400,
+        backgroundColor: Colors.card,
+        marginBottom: 20,
+        overflow: 'hidden',
+        // No border radius in screenshot? Actually hard to tell, usually minimal or none. keeping minimal 
+        borderRadius: 0,
+    },
+    projectImage: {
+        width: '100%',
+        height: '100%',
     },
     content: {
-        padding: 30,
+        paddingHorizontal: 0, // Text aligned left under image
     },
     title: {
         color: Colors.text,
-        fontSize: 28,
-        fontFamily: 'Inter_700Bold',
-        marginBottom: 15,
+        fontSize: 32,
+        fontFamily: 'Inter_600SemiBold',
+        marginBottom: 10,
+        letterSpacing: -1,
     },
     description: {
         color: Colors.textSecondary,
-        fontSize: 18,
-        marginBottom: 25,
-        lineHeight: 28,
-        fontFamily: 'Inter_400Regular',
-    },
-    link: {
-        color: Colors.text,
         fontSize: 16,
+        marginBottom: 20,
+        lineHeight: 24,
+        fontFamily: 'Inter_400Regular',
+        maxWidth: '90%',
+    },
+    viewButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: '#f5f5f5', // Light grey background
+        alignSelf: 'flex-start',
+        borderRadius: 4,
+    },
+    viewButtonText: {
+        color: Colors.text,
+        fontSize: 14,
         fontFamily: 'Inter_600SemiBold',
-        textDecorationLine: 'underline',
     },
 });

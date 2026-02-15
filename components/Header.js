@@ -29,7 +29,7 @@ export default function Header() {
             <Link href="/contact" asChild>
                 <TouchableOpacity style={styles.contactButton}>
                     <Text style={styles.contactText}>Contact</Text>
-                    <ArrowUpRight color={Colors.background} size={20} />
+                    <ArrowUpRight color={Colors.text} size={20} />
                 </TouchableOpacity>
             </Link>
         </View>
@@ -67,16 +67,18 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     contactButton: {
-        backgroundColor: Colors.text, // Black button (in light mode)
+        backgroundColor: Colors.background, // White background
         paddingHorizontal: 20,
         paddingVertical: 12,
-        borderRadius: 100,
+        borderRadius: 8, // Slightly less rounded based on screenshot
         flexDirection: 'row',
         alignItems: 'center',
         gap: 8,
+        borderWidth: 1,
+        borderColor: Colors.border, // Light border
     },
     contactText: {
-        color: Colors.background, // White text
+        color: Colors.text, // Black text
         fontSize: 15,
         fontFamily: 'Inter_600SemiBold',
     },

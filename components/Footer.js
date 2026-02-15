@@ -1,50 +1,53 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { ArrowUpRight } from 'lucide-react-native/icons';
 
 export default function Footer() {
     return (
         <View style={styles.container}>
-            <View style={styles.ctaContainer}>
-                <Text style={styles.ctaText}>Have any project idea?</Text>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>Contact Me</Text>
-                </Pressable>
-            </View>
+            <View style={styles.contentContainer}>
+                {/* Left Side: Call to Action */}
+                <View style={styles.ctaContainer}>
+                    <Text style={styles.ctaText}>HAVE ANY PROJECT</Text>
+                    <Text style={styles.ctaText}>IDEA? CONTACT ME</Text>
 
-            <View style={styles.linksContainer}>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>Main Pages</Text>
-                    <Text style={styles.link}>Home</Text>
-                    <Text style={styles.link}>About</Text>
-                    <Text style={styles.link}>Projects</Text>
+                    <Pressable style={styles.button}>
+                        <Text style={styles.buttonText}>Contact Now</Text>
+                        <ArrowUpRight color={Colors.background} size={20} />
+                    </Pressable>
                 </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>Utility Pages</Text>
-                    <Text style={styles.link}>Licenses</Text>
-                    <Text style={styles.link}>404 Page</Text>
-                </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>More Pages</Text>
-                    <Text style={styles.link}>Services</Text>
-                    <Text style={styles.link}>Blog</Text>
-                    <Text style={styles.link}>Contact</Text>
-                </View>
-                <View style={styles.column}>
-                    <Text style={styles.columnHeader}>Socials</Text>
-                    <View style={styles.socialRow}>
+
+                {/* Right Side: Links */}
+                <View style={styles.linksContainer}>
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>MAIN PAGES</Text>
+                        <Text style={styles.link}>Home</Text>
+                        <Text style={styles.link}>About</Text>
+                        <Text style={styles.link}>Project</Text>
+                    </View>
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>UTILITY PAGES</Text>
+                        <Text style={styles.link}>Licenses</Text>
+                        <Text style={styles.link}>404 Page</Text>
+                    </View>
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>MORE PAGES</Text>
+                        <Text style={styles.link}>Services</Text>
+                        <Text style={styles.link}>Blog</Text>
+                        <Text style={styles.link}>Contact</Text>
+                    </View>
+                    <View style={styles.column}>
+                        <Text style={styles.columnHeader}>SOCIALS</Text>
                         <Text style={styles.link}>Instagram</Text>
-                    </View>
-                    <View style={styles.socialRow}>
                         <Text style={styles.link}>Twitter</Text>
-                    </View>
-                    <View style={styles.socialRow}>
                         <Text style={styles.link}>Linkedin</Text>
                     </View>
                 </View>
             </View>
 
             <View style={styles.bottom}>
-                <Text style={styles.copyright}>© 2024 Jaxon Grayson. All Rights Reserved.</Text>
+                <View style={styles.divider} />
+                <Text style={styles.copyright}>Copyright © Jaxon Grayson. All Rights Reserved</Text>
             </View>
         </View>
     );
@@ -52,72 +55,83 @@ export default function Footer() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
-        backgroundColor: Colors.card,
-        borderTopWidth: 1,
-        borderTopColor: Colors.border,
-        paddingBottom: 60,
-        paddingTop: 60,
+        paddingHorizontal: 40,
+        paddingTop: 100,
+        paddingBottom: 40,
+        backgroundColor: '#f9f9f9', // Light grey background like screenshot
+    },
+    contentContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: 60,
+        marginBottom: 100,
+        alignItems: 'flex-start',
     },
     ctaContainer: {
-        alignItems: 'center',
-        paddingVertical: 80,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.border,
-        marginBottom: 60,
+        flex: 1,
+        minWidth: 300,
     },
     ctaText: {
         color: Colors.text,
-        fontSize: 56,
+        fontSize: 60,
         fontFamily: 'Inter_900Black',
-        marginBottom: 40,
-        textAlign: 'center',
-        letterSpacing: -2,
         lineHeight: 60,
+        letterSpacing: -2,
+        textTransform: 'uppercase',
     },
     button: {
         backgroundColor: Colors.text,
-        paddingHorizontal: 40,
-        paddingVertical: 20,
-        borderRadius: 100,
+        paddingHorizontal: 30,
+        paddingVertical: 16,
+        borderRadius: 4,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        marginTop: 40,
+        alignSelf: 'flex-start',
     },
     buttonText: {
         color: Colors.background,
-        fontSize: 18,
-        fontFamily: 'Inter_700Bold',
+        fontSize: 16,
+        fontFamily: 'Inter_600SemiBold',
     },
     linksContainer: {
+        flex: 1,
+        minWidth: 300,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center',
-        gap: 30,
-        marginBottom: 40,
+        justifyContent: 'space-between',
+        gap: 40,
     },
     column: {
-        minWidth: 150,
+        minWidth: 100,
     },
     columnHeader: {
         color: Colors.text,
-        fontSize: 18,
-        fontFamily: 'Inter_700Bold',
+        fontSize: 14,
+        fontFamily: 'Inter_900Black', // Bold header
         marginBottom: 20,
+        textTransform: 'uppercase',
     },
     link: {
-        color: Colors.text,
+        color: Colors.textSecondary,
         fontSize: 16,
-        fontFamily: 'Inter_500Medium',
-    },
-    socialRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        fontFamily: 'Inter_400Regular',
         marginBottom: 12,
     },
     bottom: {
-        alignItems: 'center',
+        width: '100%',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: Colors.border,
+        marginBottom: 30,
     },
     copyright: {
         color: Colors.textSecondary,
         fontSize: 14,
         fontFamily: 'Inter_400Regular',
+        textAlign: 'center',
     },
 });

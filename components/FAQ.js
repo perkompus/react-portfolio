@@ -9,34 +9,43 @@ const faqs = [
     { i: 1, q: 'What happens after the design is ready & I approve it?', a: 'Once approved, we move to the development phase where we bring the designs to life using modern web technologies.' },
     { i: 2, q: 'Do you charge for additional revisions?', a: 'We include a set number of revisions in our initial agreement. Additional revisions may incur extra costs depending on the complexity.' },
     { i: 3, q: 'I have an agency. Can I outsource work to you?', a: 'Yes, I promote white-label services for agencies looking to scale their production capabilities.' },
+    { id: 0, question: 'Can you work with wireframes or our existing designs?', answer: 'Yes, absolutely. I can work with your provided wireframes, mockups, or existing designs to ensure consistency and alignment with your vision.' },
+    { id: 1, question: 'What happens after the design is ready & I approve it?', answer: 'Once approved, we move to the development phase where we bring the designs to life using modern web technologies.' },
+    { id: 2, question: 'Do you charge for additional revisions?', answer: 'We include a set number of revisions in our initial agreement. Additional revisions may incur extra costs depending on the complexity.' },
+    { id: 3, question: 'I have an agency. Can I outsource work to you?', answer: 'Yes, I promote white-label services for agencies looking to scale their production capabilities.' },
 ];
 
-function AccordionItem({ item }) {
-    const [expanded, setExpanded] = useState(false);
-
-    return (
-        <Pressable onPress={() => setExpanded(!expanded)} style={styles.item}>
-            <View style={styles.header}>
-                <Text style={styles.question}>{item.q}</Text>
-                {expanded ? <ChevronUp color={Colors.text} size={20} /> : <ChevronDown color={Colors.text} size={20} />}
-            </View>
-            {expanded && (
-                <View style={styles.body}>
-                    <Text style={styles.answer}>{item.a}</Text>
-                </View>
-            )}
-        </Pressable>
-    );
-}
-
 export default function FAQ() {
+    const [openId, setOpenId] = useState(null);
+
     return (
         <View style={styles.container}>
-            <Text style={styles.sectionHeader}>FAQ</Text>
-            <View style={styles.list}>
-                {faqs.map((item) => (
-                    <AccordionItem key={item.i} item={item} />
-                ))}
+            <View style={styles.contentContainer}>
+                {/* Left Side: Title */}
+                <View style={styles.leftColumn}>
+                    <Text style={styles.sectionHeader}>FAQ</Text>
+                </View>
+
+                {/* Right Side: Questions */}
+                <View style={styles.rightColumn}>
+                    {faqs.map((faq) => (
+                        <View key={faq.id} style={styles.item}>
+                            <Pressable
+                                style={styles.header}
+                                onPress={() => setOpenId(openId === faq.id ? null : faq.id)}
+                            >
+                                <Text style={styles.question}>{faq.question}</Text>
+                                <Text style={styles.icon}>{openId === faq.id ? '−' : '+'}</Text>
+                            </Pressable>
+
+                            {openId === faq.id && (
+                                <View style={styles.answerContainer}>
+                                    <Text style={styles.answer}>{faq.answer}</Text>
+                                </View>
+                            )}
+                        </View>
+                    ))}
+                </View>
             </View>
         </View>
     );
@@ -44,27 +53,36 @@ export default function FAQ() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 100,
         backgroundColor: Colors.background,
-        paddingVertical: 40,
-        marginVertical: 0,
+    },
+    contentContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        gap: 60,
+    },
+    leftColumn: {
+        flex: 1,
+        minWidth: 300,
+    },
+    rightColumn: {
+        flex: 1.5,
+        minWidth: 300,
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 48,
+        fontSize: 150, // Massive FAQ text
         fontFamily: 'Inter_900Black',
-        marginBottom: 40,
-        letterSpacing: -1,
-    },
-    list: {
-        gap: 20,
+        letterSpacing: -10,
+        textTransform: 'uppercase',
+        lineHeight: 150,
     },
     item: {
-        backgroundColor: Colors.card,
-        borderRadius: 20,
-        padding: 25,
-        borderWidth: 1,
-        borderColor: Colors.border,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.border,
+        paddingVertical: 30,
     },
     header: {
         flexDirection: 'row',
@@ -73,25 +91,25 @@ const styles = StyleSheet.create({
     },
     question: {
         color: Colors.text,
-        fontSize: 20,
+        fontSize: 22,
         fontFamily: 'Inter_600SemiBold',
         flex: 1,
-        marginRight: 10,
+        marginRight: 20,
     },
-    body: {
-        marginTop: 15,
-        paddingTop: 15,
-        borderTopWidth: 1,
-        borderTopColor: Colors.border,
+    icon: {
+        fontSize: 30,
+        color: Colors.text,
+        fontFamily: 'Inter_400Regular',
     },
     answerContainer: {
         overflow: 'hidden',
+        marginTop: 20,
     },
     answer: {
         color: Colors.textSecondary,
-        fontSize: 16,
-        lineHeight: 24,
-        marginTop: 15,
+        fontSize: 18,
+        lineHeight: 28,
         fontFamily: 'Inter_400Regular',
+        maxWidth: '90%',
     },
 });

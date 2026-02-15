@@ -12,21 +12,30 @@ const services = [
 export default function Services() {
     return (
         <View style={styles.container}>
-            <Text style={styles.sectionHeader}>Services</Text>
+            <View style={styles.contentContainer}>
+                {/* Left Side: Huge Title */}
+                <View style={styles.leftColumn}>
+                    <Text style={styles.sectionHeader}>SERVICES</Text>
+                </View>
 
-            <View style={styles.grid}>
-                {services.map((service) => (
-                    <View key={service.id} style={styles.card}>
-                        <Text style={styles.id}>{service.id}</Text>
-                        <Text style={styles.title}>{service.title}</Text>
-                        <View style={styles.tags}>
-                            {service.items.map((item, index) => (
-                                <Text key={index} style={styles.tag}>{item}</Text>
-                            ))}
+                {/* Right Side: List of Services */}
+                <View style={styles.rightColumn}>
+                    {services.map((service, index) => (
+                        <View key={service.id} style={styles.serviceItem}>
+                            <View style={styles.serviceHeader}>
+                                <Text style={styles.serviceIndex}>[{service.id}]</Text>
+                                <Text style={styles.serviceTags}>{service.items.join(' • ')}</Text>
+                            </View>
+
+                            <Text style={styles.serviceTitle}>{service.title}</Text>
+
+                            <Text style={styles.serviceDesc}>{service.desc}</Text>
+
+                            {/* Divider Line */}
+                            {index < services.length - 1 && <View style={styles.divider} />}
                         </View>
-                        <Text style={styles.description}>{service.desc}</Text>
-                    </View>
-                ))}
+                    ))}
+                </View>
             </View>
         </View>
     );
@@ -34,62 +43,66 @@ export default function Services() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 100,
         backgroundColor: Colors.background,
-        paddingVertical: 60,
+    },
+    contentContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap', // Allow wrapping on mobile
+        justifyContent: 'space-between',
+        gap: 60,
+    },
+    leftColumn: {
+        flex: 1,
+        minWidth: 300,
+    },
+    rightColumn: {
+        flex: 1.5, // Check screenshot, right side takes slightly more space or equal
+        minWidth: 300,
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 48,
+        fontSize: 100, // Massive size
         fontFamily: 'Inter_900Black',
-        marginBottom: 50,
-        letterSpacing: -1,
+        letterSpacing: -5,
+        textTransform: 'uppercase',
+        lineHeight: 100,
     },
-    grid: {
-        gap: 20,
+    serviceItem: {
+        marginBottom: 60,
     },
-    card: {
-        backgroundColor: Colors.card,
-        borderRadius: 24,
-        padding: 30,
-        marginBottom: 16,
-        borderWidth: 1,
-        borderColor: Colors.border,
+    serviceHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
-    id: {
+    serviceIndex: {
         color: Colors.textSecondary,
         fontSize: 16,
-        marginBottom: 15,
-        fontFamily: 'Inter_400Regular',
+        fontFamily: 'Inter_600SemiBold',
     },
-    title: {
+    serviceTags: {
         color: Colors.text,
-        fontSize: 32,
-        fontFamily: 'Inter_700Bold',
+        fontSize: 16,
+        fontFamily: 'Inter_600SemiBold',
+    },
+    serviceTitle: {
+        color: Colors.text,
+        fontSize: 40,
+        fontFamily: 'Inter_600SemiBold', // Matches "Branding" boldness
         marginBottom: 20,
+        letterSpacing: -1,
     },
-    tags: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 10,
-        marginBottom: 25,
-    },
-    tag: {
-        color: Colors.text,
-        fontSize: 14,
-        borderWidth: 1,
-        borderColor: Colors.border,
-        paddingHorizontal: 15,
-        paddingVertical: 8,
-        borderRadius: 100,
-        overflow: 'hidden',
-        backgroundColor: 'rgba(0,0,0,0.05)',
-        fontFamily: 'Inter_500Medium',
-    },
-    description: {
+    serviceDesc: {
         color: Colors.textSecondary,
         fontSize: 18,
         lineHeight: 28,
         fontFamily: 'Inter_400Regular',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: Colors.border,
+        marginTop: 60,
     },
 });

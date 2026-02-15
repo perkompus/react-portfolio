@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image as RNImage } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { Calendar } from 'lucide-react-native/icons';
 
 const articles = [
     { id: 1, category: 'Marketing', date: 'Jan 22, 2024', title: 'Marketing Insights: Email Campaign Strategies', preview: 'They report concept the we of packed, place service. Well commas, with instead .', image: 'https://framerusercontent.com/images/aZ9CrNHcNBJZRBRhRRCHsOz7Q2s.png' },
@@ -11,19 +12,33 @@ const articles = [
 export default function Articles() {
     return (
         <View style={styles.container}>
-            <Text style={styles.sectionHeader}>Articles</Text>
+            <Text style={styles.sectionHeader}>ARTICLES</Text>
 
-            <View style={styles.list}>
+            <View style={styles.grid}>
                 {articles.map((article) => (
                     <Pressable key={article.id} style={styles.card}>
-                        <Image source={{ uri: article.image }} style={styles.image} resizeMode="cover" />
-                        <View style={styles.meta}>
-                            <Text style={styles.category}>{article.category}</Text>
-                            <Text style={styles.date}>{article.date}</Text>
+                        <View style={styles.imageContainer}>
+                            <RNImage source={{ uri: article.image }} style={styles.image} resizeMode="cover" />
                         </View>
-                        <Text style={styles.title}>{article.title}</Text>
-                        <Text style={styles.preview}>{article.preview}</Text>
-                        <Text style={styles.readMore}>Read more →</Text>
+
+                        <View style={styles.content}>
+                            <View style={styles.metaRow}>
+                                <View style={styles.badge}>
+                                    <Text style={styles.badgeText}>{article.category}</Text>
+                                </View>
+                                <View style={styles.dateContainer}>
+                                    <Calendar size={14} color={Colors.textSecondary} />
+                                    <Text style={styles.date}>{article.date}</Text>
+                                </View>
+                            </View>
+
+                            <Text style={styles.title}>{article.title}</Text>
+                            <Text style={styles.preview}>{article.preview}</Text>
+
+                            <View style={styles.readMoreButton}>
+                                <Text style={styles.readMoreText}>Read more</Text>
+                            </View>
+                        </View>
                     </Pressable>
                 ))}
             </View>
@@ -33,51 +48,69 @@ export default function Articles() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        paddingHorizontal: 40,
+        paddingVertical: 100,
         backgroundColor: Colors.background,
-        paddingVertical: 40,
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 48,
+        fontSize: 100,
         fontFamily: 'Inter_900Black',
-        marginBottom: 40,
-        letterSpacing: -1,
+        marginBottom: 80,
+        letterSpacing: -5,
+        textAlign: 'center',
+        textTransform: 'uppercase',
     },
-    list: {
+    grid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
         gap: 30,
+        justifyContent: 'center',
     },
     card: {
-        backgroundColor: Colors.card,
-        borderRadius: 24,
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: Colors.border,
+        width: '100%',
+        maxWidth: 400,
+        flexBasis: 350,
+        flexGrow: 1,
         marginBottom: 20,
+    },
+    imageContainer: {
+        width: '100%',
+        height: 250,
+        backgroundColor: Colors.card,
+        marginBottom: 20,
+        overflow: 'hidden',
     },
     image: {
         width: '100%',
-        height: 200,
-    },
-    imagePlaceholder: {
-        height: 200,
-        width: '100%',
+        height: '100%',
     },
     content: {
-        padding: 24,
+        // padding: 24, // Screenshot shows no padding around content text, aligned with image
     },
-    meta: {
+    metaRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 12,
-        marginTop: 20,
-        paddingHorizontal: 20,
+        alignItems: 'center',
+        marginBottom: 15,
     },
-    category: {
-        color: Colors.accent,
-        fontSize: 14,
+    badge: {
+        backgroundColor: '#f5f5f5',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    badgeText: {
+        fontSize: 12,
         fontFamily: 'Inter_600SemiBold',
-        textTransform: 'uppercase',
+        color: Colors.text,
+    },
+    dateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
     },
     date: {
         color: Colors.textSecondary,
@@ -86,25 +119,30 @@ const styles = StyleSheet.create({
     },
     title: {
         color: Colors.text,
-        fontSize: 20,
+        fontSize: 24,
         fontFamily: 'Inter_700Bold',
         marginBottom: 10,
-        lineHeight: 28,
-        paddingHorizontal: 20,
+        lineHeight: 32,
     },
     preview: {
         color: Colors.textSecondary,
         fontSize: 16,
         lineHeight: 24,
-        marginBottom: 16,
-        paddingHorizontal: 20,
+        marginBottom: 20,
         fontFamily: 'Inter_400Regular',
     },
-    readMore: {
-        color: Colors.accent,
-        fontSize: 16,
-        fontFamily: 'Inter_600SemiBold',
-        marginBottom: 24,
+    readMoreButton: {
+        backgroundColor: '#f9f9f9',
         paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 4,
+        alignSelf: 'flex-start',
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    readMoreText: {
+        color: Colors.text,
+        fontSize: 14,
+        fontFamily: 'Inter_600SemiBold',
     },
 });
