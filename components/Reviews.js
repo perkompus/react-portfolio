@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Image as RNImage, ScrollView, Dimensions, Press
 import { Colors } from '../constants/Colors';
 
 const reviews = [
-    { id: 1, name: 'Juli Fulk', role: 'Founder & CEO', company: 'Dcode Agency', text: 'Jaxon is a true professional. He delivered the project on time and exceeded our expectations. His attention to detail is unmatched.' },
-    { id: 2, name: 'Alex Johnson', role: 'Product Manager', company: 'TechFlow', text: 'The design system delivered was comprehensive and easy to implement. It significantly sped up our development process.' },
-    { id: 3, name: 'Sarah Lee', role: 'Marketing Director', company: 'GrowthCo', text: 'Incredible work on the rebranding. The new visual identity perfectly captures our company values and mission.' },
+    { id: 1, name: 'Juli Fulk', role: 'Founder & CEO', company: 'Dcode Agency', text: 'Jaxon is a true professional. He delivered the project on time and exceeded our expectations. His attention to detail is unmatched.', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' },
+    { id: 2, name: 'Alex Johnson', role: 'Product Manager', company: 'TechFlow', text: 'The design system delivered was comprehensive and easy to implement. It significantly sped up our development process.', image: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200&auto=format&fit=crop' },
+    { id: 3, name: 'Sarah Lee', role: 'Marketing Director', company: 'GrowthCo', text: 'Incredible work on the rebranding. The new visual identity perfectly captures our company values and mission.', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop' },
 ];
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -72,7 +72,7 @@ export default function Reviews() {
 
                         <View style={styles.authorContainer}>
                             <RNImage
-                                source={{ uri: 'https://framerusercontent.com/images/123Placeholder.png' }} // Placeholder
+                                source={{ uri: review.image }}
                                 style={styles.authorImage}
                             />
                             <View>
@@ -91,16 +91,17 @@ const styles = StyleSheet.create({
     container: {
         paddingVertical: 100,
         backgroundColor: Colors.background,
+        paddingHorizontal: '15%',
     },
     headerRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 40,
+        alignItems: 'flex-end',
+        paddingHorizontal: 0, // Removed to align with global container padding
         marginBottom: 60,
     },
     titleContainer: {
-        paddingLeft: '15%', // Indent 15% as requested
+        // paddingLeft removed to use global container padding
     },
     sectionHeader: {
         color: Colors.text,
@@ -113,17 +114,20 @@ const styles = StyleSheet.create({
     navButtons: {
         flexDirection: 'row',
         gap: 10,
-        paddingRight: '15%', // Indent 15% from right to match title
+        // paddingRight removed
     },
     navButton: {
-        width: 50,
+        width: 80, // Increased width for boxy rectangular look
         height: 50,
-        backgroundColor: 'black',
+        backgroundColor: Colors.border, // Dark gray in dark mode
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 0, // BOXY: Sharp corners
+        borderWidth: 1,
+        borderColor: Colors.text, // Add border to define the box
     },
     navArrow: {
-        color: 'white',
+        color: Colors.text, // White in dark mode
         fontSize: 24,
     },
     scrollContent: {
@@ -131,9 +135,9 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     reviewCard: {
-        backgroundColor: '#f9f9f9', // Very light grey
+        backgroundColor: Colors.card,
         padding: 60,
-        marginRight: 20, // Gap between cards
+        marginRight: 20,
     },
     reviewText: {
         color: Colors.text,

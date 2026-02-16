@@ -11,14 +11,7 @@ export default function Hero() {
     return (
         <View style={styles.container}>
             {/* Background Gradient Effect - subtle */}
-            <LinearGradient
-                colors={[Colors.background, '#f5f5f5', Colors.background]}
-                style={StyleSheet.absoluteFill}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                locations={[0, 0.5, 1]}
-                opacity={0.5}
-            />
+            {/* Background Gradient Effect - Removed for pure black theme */}\n
 
             <View style={styles.content}>
                 {/* Header Content: Greeting & Title */}
@@ -74,6 +67,21 @@ export default function Hero() {
                         />
                     </View>
                 </Animated.View>
+
+                {/* Featured Clients Section */}
+                <Animated.View
+                    entering={FadeInDown.delay(1000).duration(1000)}
+                    style={styles.clientsSection}
+                >
+                    <Text style={styles.clientsLabel}>TRUSTED BY</Text>
+                    <View style={styles.logoRow}>
+                        <Text style={styles.logoText}>DCODE</Text>
+                        <Text style={styles.logoText}>TECHFLOW</Text>
+                        <Text style={styles.logoText}>GROWTHCO</Text>
+                        <Text style={styles.logoText}>LUMINOUS</Text>
+                        <Text style={styles.logoText}>ASPECT</Text>
+                    </View>
+                </Animated.View>
             </View>
         </View>
     );
@@ -81,7 +89,7 @@ export default function Hero() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
+        paddingHorizontal: '15%',
         paddingTop: 60,
         paddingBottom: 80,
         backgroundColor: Colors.background,
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
         flex: 1,
         minWidth: 300,
         height: 500,
-        borderRadius: 20,
+        borderRadius: 0,
         overflow: 'hidden',
         backgroundColor: '#f0f0f0',
     },
@@ -162,5 +170,31 @@ const styles = StyleSheet.create({
     heroImage: {
         width: '100%',
         height: '100%',
+    },
+    clientsSection: {
+        marginTop: 80,
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(0,0,0,0.1)',
+        paddingTop: 40,
+    },
+    clientsLabel: {
+        color: Colors.textSecondary,
+        fontSize: 14,
+        fontFamily: 'Inter_600SemiBold',
+        letterSpacing: 1,
+        marginBottom: 30,
+    },
+    logoRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 60,
+        alignItems: 'center',
+        opacity: 0.6,
+    },
+    logoText: {
+        color: Colors.text,
+        fontSize: 24,
+        fontFamily: 'Inter_700Bold', // Simulating logos with bold text
+        letterSpacing: -1,
     },
 });

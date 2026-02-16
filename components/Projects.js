@@ -45,18 +45,19 @@ export default function Projects() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
+        paddingHorizontal: '15%',
         paddingVertical: 80,
         backgroundColor: Colors.background,
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 100,
-        fontFamily: 'Inter_900Black',
-        marginBottom: 80,
-        textAlign: 'center',
-        letterSpacing: -4,
+        fontSize: 95,
+        fontFamily: 'Inter_700Bold',
+        marginBottom: 60,
+        textAlign: 'left',
+        letterSpacing: -5,
         textTransform: 'uppercase',
+        lineHeight: 90,
     },
     grid: {
         flexDirection: 'row',
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
         gap: 8,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: '#f5f5f5', // Light grey background
+        backgroundColor: Colors.card, // Dark card background
         alignSelf: 'flex-start',
         borderRadius: 4,
     },

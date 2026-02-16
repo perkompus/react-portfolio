@@ -48,7 +48,7 @@ export default function Articles() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
+        paddingHorizontal: '15%',
         paddingVertical: 100,
         backgroundColor: Colors.background,
     },
@@ -95,12 +95,22 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     badge: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: Colors.card,
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: '#eee',
+        borderColor: Colors.border,
+    },
+    // ... (skipping some lines)
+    readMoreButton: {
+        backgroundColor: Colors.card,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 4,
+        alignSelf: 'flex-start',
+        borderWidth: 1,
+        borderColor: Colors.border,
     },
     badgeText: {
         fontSize: 12,
@@ -132,13 +142,13 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_400Regular',
     },
     readMoreButton: {
-        backgroundColor: '#f9f9f9',
+        backgroundColor: Colors.card,
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 4,
         alignSelf: 'flex-start',
         borderWidth: 1,
-        borderColor: '#eee',
+        borderColor: Colors.border,
     },
     readMoreText: {
         color: Colors.text,

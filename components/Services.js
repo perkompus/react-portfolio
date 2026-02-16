@@ -43,7 +43,7 @@ export default function Services() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
+        paddingHorizontal: '15%',
         paddingVertical: 100,
         backgroundColor: Colors.background,
     },
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     leftColumn: {
         flex: 1,
         minWidth: 300,
-        paddingLeft: '15%', // Indent 15%
     },
     rightColumn: {
         flex: 1.5, // Check screenshot, right side takes slightly more space or equal

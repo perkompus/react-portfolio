@@ -55,22 +55,22 @@ export default function Footer() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
-        paddingTop: 100,
+        paddingHorizontal: '15%',
+        paddingTop: 60, // Reduced from 100
         paddingBottom: 40,
-        backgroundColor: '#f9f9f9', // Updated to light grey based on feedback
-        overflow: 'hidden', // Prevent overlaps
+        backgroundColor: Colors.footerBackground,
+        overflow: 'hidden',
     },
     contentContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 0, // Removed gap to control via flex/width
-        marginBottom: 100,
+        gap: 0,
+        marginBottom: 60, // Reduced from 100
         alignItems: 'flex-start',
     },
     ctaContainer: {
         flex: 1.5, // Give it more space relative to links
-        paddingLeft: '13%', // 13% indent from left
+        // paddingLeft removed for global alignment
     },
     ctaText: {
         color: Colors.text,

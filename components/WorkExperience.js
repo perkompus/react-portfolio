@@ -37,7 +37,7 @@ export default function WorkExperience() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 40,
+        paddingHorizontal: '15%',
         paddingVertical: 100,
         backgroundColor: Colors.background,
     },
