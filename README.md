@@ -1,4 +1,4 @@
-# Jaxon - Portfolio Website Clone
+# Portfolio Website 
 
 A high-fidelity clone of the [Jaxon Framer template](https://left-lifecycle-331001.framer.app/), built with **React Native for Web** using **Expo**.
 
