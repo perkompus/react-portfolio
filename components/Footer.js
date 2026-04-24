@@ -1,12 +1,13 @@
+import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { ArrowUpRight } from 'lucide-react-native';
 import { Colors } from '../constants/Colors';
-import { ArrowUpRight } from 'lucide-react-native/icons';
 
 export default function Footer() {
     return (
         <View style={styles.container}>
             <View style={styles.contentContainer}>
-                {/* Left Side: Call to Action */}
+                {/* Left: CTA */}
                 <View style={styles.ctaContainer}>
                     <Text style={styles.ctaText}>HAVE ANY PROJECT</Text>
                     <Text style={styles.ctaText}>IDEA? CONTACT ME</Text>
@@ -17,7 +18,7 @@ export default function Footer() {
                     </Pressable>
                 </View>
 
-                {/* Right Side: Links */}
+                {/* Right: Links */}
                 <View style={styles.linksContainer}>
                     <View style={styles.column}>
                         <Text style={styles.columnHeader}>MAIN PAGES</Text>
@@ -56,26 +57,25 @@ export default function Footer() {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: '15%',
-        paddingTop: 60, // Reduced from 100
+        paddingTop: 60,
         paddingBottom: 40,
         backgroundColor: Colors.footerBackground,
-        overflow: 'hidden',
     },
     contentContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 0,
-        marginBottom: 60, // Reduced from 100
+        gap: 60,
+        marginBottom: 60,
         alignItems: 'flex-start',
     },
     ctaContainer: {
-        flex: 1.5, // Give it more space relative to links
-        // paddingLeft removed for global alignment
+        flex: 1.5,
+        minWidth: 300,
     },
     ctaText: {
         color: Colors.text,
-        fontSize: 58, // Reduced by 2 as requested
-        fontFamily: 'Inter_700Bold', // Reduced boldness
+        fontSize: 58,
+        fontFamily: 'Inter_700Bold',
         lineHeight: 70,
         letterSpacing: -1,
         textTransform: 'uppercase',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_600SemiBold',
     },
     linksContainer: {
-        flex: 1, // Smaller ratio to keep it closer to CTA if needed, or just let them sit side by side
+        flex: 1,
         minWidth: 300,
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     columnHeader: {
         color: Colors.text,
         fontSize: 14,
-        fontFamily: 'Inter_900Black', // Bold header
+        fontFamily: 'Inter_900Black',
         marginBottom: 20,
         textTransform: 'uppercase',
     },

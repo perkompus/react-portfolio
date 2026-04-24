@@ -19,7 +19,7 @@ export default function RootLayout() {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.background }}>
-            <StatusBar style="dark" />
+            <StatusBar style="light" />
             <Stack
                 screenOptions={{
                     headerShown: false,
@@ -28,11 +28,20 @@ export default function RootLayout() {
             />
             {Platform.OS === 'web' && (
                 <style type="text/css">{`
-          body {
-            background-color: ${Colors.background};
-            font-family: 'Inter_400Regular', sans-serif;
-          }
-        `}</style>
+                    *, *::before, *::after { box-sizing: border-box; }
+                    html { scroll-behavior: smooth; }
+                    body {
+                        background-color: ${Colors.background};
+                        font-family: 'Inter', sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        overflow-x: hidden;
+                    }
+                    ::-webkit-scrollbar { width: 6px; }
+                    ::-webkit-scrollbar-track { background: ${Colors.background}; }
+                    ::-webkit-scrollbar-thumb { background: ${Colors.border}; border-radius: 3px; }
+                    ::-webkit-scrollbar-thumb:hover { background: #404040; }
+                `}</style>
             )}
         </View>
     );

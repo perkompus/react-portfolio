@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image as RNImage } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { ArrowUpRight } from 'lucide-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../constants/Colors';
 
 const { width } = Dimensions.get('window');
@@ -10,17 +9,14 @@ const { width } = Dimensions.get('window');
 export default function Hero() {
     return (
         <View style={styles.container}>
-            {/* Background Gradient Effect - subtle */}
-            {/* Background Gradient Effect - Removed for pure black theme */}\n
-
             <View style={styles.content}>
-                {/* Header Content: Greeting & Title */}
+                {/* Greeting & Title */}
                 <View style={styles.headerContent}>
                     <Animated.Text
                         entering={FadeInDown.delay(200).duration(1000)}
                         style={styles.greeting}
                     >
-                        Hello, I’m Jaxon Grayson
+                        Hello, I'm Jaxon Grayson
                     </Animated.Text>
 
                     <View style={styles.titleContainer}>
@@ -56,10 +52,6 @@ export default function Hero() {
                     </View>
 
                     <View style={styles.rightColumn}>
-                        {/* 
-                            Note: The exact image from the screenshot is not available in the provided context.
-                            Using a high-quality placeholder that fits the aesthetic.
-                        */}
                         <RNImage
                             source={{ uri: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop' }}
                             style={styles.heroImage}
@@ -68,7 +60,7 @@ export default function Hero() {
                     </View>
                 </Animated.View>
 
-                {/* Featured Clients Section */}
+                {/* Trusted By */}
                 <Animated.View
                     entering={FadeInDown.delay(1000).duration(1000)}
                     style={styles.clientsSection}
@@ -97,7 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     content: {
-        maxWidth: 1400, // Limit width on large screens
+        maxWidth: 1400,
         width: '100%',
         alignSelf: 'center',
     },
@@ -117,7 +109,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: Colors.text,
-        fontSize: 100, // Scaled for immediate impact
+        fontSize: 100,
         fontFamily: 'Inter_900Black',
         lineHeight: 90,
         letterSpacing: -4,
@@ -140,9 +132,8 @@ const styles = StyleSheet.create({
         flex: 1,
         minWidth: 300,
         height: 500,
-        borderRadius: 0,
         overflow: 'hidden',
-        backgroundColor: '#f0f0f0',
+        backgroundColor: Colors.card,
     },
     description: {
         color: Colors.text,
@@ -174,7 +165,7 @@ const styles = StyleSheet.create({
     clientsSection: {
         marginTop: 80,
         borderTopWidth: 1,
-        borderTopColor: 'rgba(0,0,0,0.1)',
+        borderTopColor: Colors.border,
         paddingTop: 40,
     },
     clientsLabel: {
@@ -194,7 +185,7 @@ const styles = StyleSheet.create({
     logoText: {
         color: Colors.text,
         fontSize: 24,
-        fontFamily: 'Inter_700Bold', // Simulating logos with bold text
+        fontFamily: 'Inter_700Bold',
         letterSpacing: -1,
     },
 });

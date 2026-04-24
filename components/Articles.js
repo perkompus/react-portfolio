@@ -1,12 +1,33 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, Image as RNImage } from 'react-native';
+import { Calendar } from 'lucide-react-native';
 import { Colors } from '../constants/Colors';
-import { Calendar } from 'lucide-react-native/icons';
 
 const articles = [
-    { id: 1, category: 'Marketing', date: 'Jan 22, 2024', title: 'Marketing Insights: Email Campaign Strategies', preview: 'They report concept the we of packed, place service. Well commas, with instead .', image: 'https://framerusercontent.com/images/aZ9CrNHcNBJZRBRhRRCHsOz7Q2s.png' },
-    { id: 2, category: 'Startups', date: 'Jan 23, 2024', title: 'Designers\' Hub: Tips and Tricks for Creatives', preview: 'They explain method the we of guided, provide function. Clear links, in instead.', image: 'https://framerusercontent.com/images/cPiVsC271eI8xvLkup9jJqxtP8.png' },
-    { id: 3, category: 'Business', date: 'Jan 24, 2024', title: 'Code Crafting: Mastering Web Development', preview: 'We demonstrate tool the of applying, ensure quality. Precise steps, with rather.', image: 'https://framerusercontent.com/images/Lv4SUfySMejcD4S1UnjzuUmc810.png' },
+    {
+        id: 1,
+        category: 'Marketing',
+        date: 'Jan 22, 2024',
+        title: 'Marketing Insights: Email Campaign Strategies',
+        preview: 'Explore the latest strategies for email marketing campaigns that drive engagement and conversions in the modern digital landscape.',
+        image: 'https://framerusercontent.com/images/aZ9CrNHcNBJZRBRhRRCHsOz7Q2s.png',
+    },
+    {
+        id: 2,
+        category: 'Startups',
+        date: 'Jan 23, 2024',
+        title: 'Designers\' Hub: Tips and Tricks for Creatives',
+        preview: 'A curated collection of design tips, tools, and workflows to help creative professionals work smarter and produce better results.',
+        image: 'https://framerusercontent.com/images/cPiVsC271eI8xvLkup9jJqxtP8.png',
+    },
+    {
+        id: 3,
+        category: 'Business',
+        date: 'Jan 24, 2024',
+        title: 'Code Crafting: Mastering Web Development',
+        preview: 'From fundamentals to advanced patterns, a deep dive into the craft of building high-quality, performant web experiences.',
+        image: 'https://framerusercontent.com/images/Lv4SUfySMejcD4S1UnjzuUmc810.png',
+    },
 ];
 
 export default function Articles() {
@@ -21,23 +42,21 @@ export default function Articles() {
                             <RNImage source={{ uri: article.image }} style={styles.image} resizeMode="cover" />
                         </View>
 
-                        <View style={styles.content}>
-                            <View style={styles.metaRow}>
-                                <View style={styles.badge}>
-                                    <Text style={styles.badgeText}>{article.category}</Text>
-                                </View>
-                                <View style={styles.dateContainer}>
-                                    <Calendar size={14} color={Colors.textSecondary} />
-                                    <Text style={styles.date}>{article.date}</Text>
-                                </View>
+                        <View style={styles.metaRow}>
+                            <View style={styles.badge}>
+                                <Text style={styles.badgeText}>{article.category}</Text>
                             </View>
-
-                            <Text style={styles.title}>{article.title}</Text>
-                            <Text style={styles.preview}>{article.preview}</Text>
-
-                            <View style={styles.readMoreButton}>
-                                <Text style={styles.readMoreText}>Read more</Text>
+                            <View style={styles.dateContainer}>
+                                <Calendar size={14} color={Colors.textSecondary} />
+                                <Text style={styles.date}>{article.date}</Text>
                             </View>
+                        </View>
+
+                        <Text style={styles.title}>{article.title}</Text>
+                        <Text style={styles.preview}>{article.preview}</Text>
+
+                        <View style={styles.readMoreButton}>
+                            <Text style={styles.readMoreText}>Read more</Text>
                         </View>
                     </Pressable>
                 ))}
@@ -54,8 +73,8 @@ const styles = StyleSheet.create({
     },
     sectionHeader: {
         color: Colors.text,
-        fontSize: 100, // Updated to 100 based on feedback
-        fontFamily: 'Inter_700Bold', // Reduced boldness
+        fontSize: 100,
+        fontFamily: 'Inter_700Bold',
         marginBottom: 60,
         letterSpacing: -2,
         textAlign: 'center',
@@ -85,9 +104,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    content: {
-        // padding: 24, // Screenshot shows no padding around content text, aligned with image
-    },
     metaRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -99,16 +115,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 4,
-        borderWidth: 1,
-        borderColor: Colors.border,
-    },
-    // ... (skipping some lines)
-    readMoreButton: {
-        backgroundColor: Colors.card,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 4,
-        alignSelf: 'flex-start',
         borderWidth: 1,
         borderColor: Colors.border,
     },
@@ -130,13 +136,13 @@ const styles = StyleSheet.create({
     title: {
         color: Colors.text,
         fontSize: 24,
-        fontFamily: 'Inter_600SemiBold', // Reduced boldness from Bold to SemiBold
+        fontFamily: 'Inter_600SemiBold',
         marginBottom: 10,
         lineHeight: 32,
     },
     preview: {
         color: Colors.textSecondary,
-        fontSize: 15, // Reduced from 16
+        fontSize: 15,
         lineHeight: 24,
         marginBottom: 20,
         fontFamily: 'Inter_400Regular',
