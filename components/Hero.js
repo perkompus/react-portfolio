@@ -1,79 +1,84 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image as RNImage } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
-import { ArrowUpRight } from 'lucide-react-native';
+import { Dimensions, Image as RNImage, StyleSheet, Text, View } from 'react-native';
+import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated';
 import { Colors } from '../constants/Colors';
+import { Layout, Type, isPhone } from '../constants/Theme';
+import { useScrollY } from '../contexts/ScrollContext';
+import ArrowButton from './ui/ArrowButton';
+import LineReveal from './ui/LineReveal';
+import Reveal from './ui/Reveal';
 
-const { width } = Dimensions.get('window');
+// The reference shows three client wordmarks spread across the left column.
+const clients = ['DCODE', 'TECHFLOW', 'LUMINOUS'];
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function Hero() {
+    const scrollY = useScrollY();
+
+    // Slow parallax drift on the hero image, as on the reference site.
+    const imageStyle = useAnimatedStyle(() => {
+        const y = scrollY ? scrollY.value : 0;
+        return {
+            transform: [
+                { translateY: interpolate(y, [0, SCREEN_HEIGHT], [0, -60], 'clamp') },
+                { scale: interpolate(y, [0, SCREEN_HEIGHT], [1, 1.08], 'clamp') },
+            ],
+        };
+    });
+
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                {/* Greeting & Title */}
-                <View style={styles.headerContent}>
-                    <Animated.Text
-                        entering={FadeInDown.delay(200).duration(1000)}
-                        style={styles.greeting}
-                    >
-                        Hello, I'm Jaxon Grayson
-                    </Animated.Text>
-
-                    <View style={styles.titleContainer}>
-                        <Animated.Text
-                            entering={FadeInDown.delay(400).duration(1000)}
-                            style={styles.title}
-                        >
-                            DESIGNER +
-                        </Animated.Text>
-                        <Animated.Text
-                            entering={FadeInDown.delay(600).duration(1000)}
-                            style={styles.title}
-                        >
-                            DEVELOPER
-                        </Animated.Text>
-                    </View>
+                <View style={styles.headline}>
+                    <LineReveal textStyle={styles.greeting} delay={100} duration={700}>
+                        Hello, I&rsquo;m Jaxon Grayson
+                    </LineReveal>
+                    <LineReveal textStyle={styles.title} delay={250}>
+                        Designer+
+                    </LineReveal>
+                    <LineReveal textStyle={styles.title} delay={400}>
+                        Developer
+                    </LineReveal>
                 </View>
 
-                {/* Split Section: Description & Image */}
-                <Animated.View
-                    entering={FadeInDown.delay(800).duration(1000)}
-                    style={styles.splitSection}
-                >
-                    <View style={styles.leftColumn}>
-                        <Text style={styles.description}>
-                            A visionary Art Director from Brooklyn, showcases a portfolio of visually stunning campaigns that blend artistry and innovation. His work spans multiple mediums, from print to digital, and demonstrates a keen eye for bold typography, striking imagery, and compelling storytelling.
-                        </Text>
+                <View style={styles.bottom}>
+                    {/* Left column matches the image height and pushes the client
+                        strip to the bottom, as the reference does. */}
+                    <Reveal style={styles.leftColumn} delay={200}>
+                        <View style={styles.paragraphBlock}>
+                            <Text style={styles.description}>
+                                A visionary Art Director from Brooklyn, showcases a portfolio of visually stunning
+                                campaigns that blend artistry and innovation. His work spans multiple mediums, from
+                                print to digital, and demonstrates a keen eye for bold typography, striking imagery,
+                                and compelling storytelling.
+                            </Text>
+                            <ArrowButton label="Contact Now" size="small" />
+                        </View>
 
-                        <TouchableOpacity style={styles.ctaButton}>
-                            <Text style={styles.ctaText}>Contact Now</Text>
-                            <ArrowUpRight color={Colors.background} size={20} />
-                        </TouchableOpacity>
-                    </View>
+                        <View style={styles.clients}>
+                            <Text style={styles.clientsLabel}>FEATURED CLIENTS</Text>
+                            <View style={styles.logoRow}>
+                                {clients.map((client) => (
+                                    <Text key={client} style={styles.clientLogo}>
+                                        {client}
+                                    </Text>
+                                ))}
+                            </View>
+                        </View>
+                    </Reveal>
 
-                    <View style={styles.rightColumn}>
-                        <RNImage
-                            source={{ uri: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop' }}
-                            style={styles.heroImage}
-                            resizeMode="cover"
-                        />
-                    </View>
-                </Animated.View>
-
-                {/* Trusted By */}
-                <Animated.View
-                    entering={FadeInDown.delay(1000).duration(1000)}
-                    style={styles.clientsSection}
-                >
-                    <Text style={styles.clientsLabel}>TRUSTED BY</Text>
-                    <View style={styles.logoRow}>
-                        <Text style={styles.logoText}>DCODE</Text>
-                        <Text style={styles.logoText}>TECHFLOW</Text>
-                        <Text style={styles.logoText}>GROWTHCO</Text>
-                        <Text style={styles.logoText}>LUMINOUS</Text>
-                        <Text style={styles.logoText}>ASPECT</Text>
-                    </View>
-                </Animated.View>
+                    <Reveal style={styles.rightColumn} delay={320} offset={70} scale={0.94}>
+                        <Animated.View style={[styles.imageWrap, imageStyle]}>
+                            <RNImage
+                                source={{
+                                    uri: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop',
+                                }}
+                                style={styles.image}
+                                resizeMode="cover"
+                            />
+                        </Animated.View>
+                    </Reveal>
+                </View>
             </View>
         </View>
     );
@@ -81,111 +86,84 @@ export default function Hero() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: '15%',
-        paddingTop: 60,
-        paddingBottom: 80,
+        paddingHorizontal: Layout.gutter,
+        paddingTop: isPhone ? 60 : 105,
+        paddingBottom: Layout.sectionSpacing,
         backgroundColor: Colors.background,
-        minHeight: Dimensions.get('window').height,
-        justifyContent: 'center',
     },
     content: {
-        maxWidth: 1400,
         width: '100%',
+        maxWidth: Layout.maxWidth,
         alignSelf: 'center',
     },
-    headerContent: {
+    headline: {
         alignItems: 'center',
-        marginBottom: 80,
+        marginBottom: isPhone ? 48 : 80,
     },
     greeting: {
+        ...Type.body,
+        fontSize: isPhone ? 18 : 22,
         color: Colors.text,
-        fontSize: 24,
-        fontFamily: 'Inter_400Regular',
-        marginBottom: 20,
-        letterSpacing: -0.5,
-    },
-    titleContainer: {
-        alignItems: 'center',
+        textAlign: 'center',
+        marginBottom: 12,
     },
     title: {
+        ...Type.display,
         color: Colors.text,
-        fontSize: 100,
-        fontFamily: 'Inter_900Black',
-        lineHeight: 90,
-        letterSpacing: -4,
         textAlign: 'center',
-        textTransform: 'uppercase',
     },
-    splitSection: {
-        flexDirection: 'row',
+    bottom: {
+        flexDirection: isPhone ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        gap: 60,
-        flexWrap: 'wrap',
+        gap: isPhone ? 40 : 55,
+        alignItems: 'stretch',
     },
     leftColumn: {
-        flex: 1,
-        minWidth: 300,
-        paddingTop: 20,
+        flex: isPhone ? undefined : 501,
+        width: isPhone ? '100%' : undefined,
+        justifyContent: 'space-between',
+        gap: 40,
+    },
+    paragraphBlock: {
+        gap: 40,
+        alignItems: 'flex-start',
     },
     rightColumn: {
-        flex: 1,
-        minWidth: 300,
-        height: 500,
+        flex: isPhone ? undefined : 444,
+        width: isPhone ? '100%' : undefined,
+    },
+    description: {
+        ...Type.body,
+        color: Colors.textSecondary,
+    },
+    imageWrap: {
+        width: '100%',
+        aspectRatio: 444 / 480,
         overflow: 'hidden',
         backgroundColor: Colors.card,
     },
-    description: {
-        color: Colors.text,
-        fontSize: 18,
-        lineHeight: 28,
-        fontFamily: 'Inter_400Regular',
-        marginBottom: 40,
-        maxWidth: 500,
-    },
-    ctaButton: {
-        backgroundColor: Colors.text,
-        paddingHorizontal: 32,
-        paddingVertical: 16,
-        borderRadius: 4,
-        alignSelf: 'flex-start',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-    },
-    ctaText: {
-        color: Colors.background,
-        fontSize: 16,
-        fontFamily: 'Inter_600SemiBold',
-    },
-    heroImage: {
+    image: {
         width: '100%',
         height: '100%',
     },
-    clientsSection: {
-        marginTop: 80,
-        borderTopWidth: 1,
-        borderTopColor: Colors.border,
-        paddingTop: 40,
+    clients: {
+        gap: 24,
     },
     clientsLabel: {
-        color: Colors.textSecondary,
-        fontSize: 14,
-        fontFamily: 'Inter_600SemiBold',
-        letterSpacing: 1,
-        marginBottom: 30,
+        ...Type.label,
+        color: Colors.text,
     },
     logoRow: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 60,
         alignItems: 'center',
-        opacity: 0.6,
+        justifyContent: 'space-between',
     },
-    logoText: {
-        color: Colors.text,
-        fontSize: 24,
+    clientLogo: {
+        fontSize: 20,
+        lineHeight: 30,
         fontFamily: 'Inter_700Bold',
-        letterSpacing: -1,
+        letterSpacing: -0.8,
+        color: Colors.text,
+        opacity: 0.55,
     },
 });

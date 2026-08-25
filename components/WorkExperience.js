@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { interpolateColor, useAnimatedStyle } from 'react-native-reanimated';
+import { ArrowUpRight } from 'lucide-react-native';
 import { Colors } from '../constants/Colors';
+import { Layout, Type, isPhone } from '../constants/Theme';
+import Reveal from './ui/Reveal';
+import SectionHeading from './ui/SectionHeading';
+import useHover from './ui/useHover';
 
 const experience = [
-    // Duplicates removed
     { id: '1', role: 'Webflow Developer', company: 'Microsoft', period: '2023 - 2024' },
     { id: '2', role: 'Product Designer', company: 'ExxonMobile', period: '2022 - 2023' },
     { id: '3', role: 'UI/UX Designer', company: 'Berkshire Hathaway', period: '2021 - 2022' },
@@ -11,25 +16,58 @@ const experience = [
     { id: '5', role: 'Graphic Designer', company: 'NovaAir Design Team', period: '2019 - 2020' },
 ];
 
+function ExperienceRow({ item }) {
+    const { hover, handlers } = useHover();
+
+    const rowStyle = useAnimatedStyle(() => ({
+        backgroundColor: interpolateColor(hover.value, [0, 1], ['rgba(0,0,0,0)', 'rgba(12,4,7,0.03)']),
+    }));
+
+    const roleStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: 8 * hover.value }],
+    }));
+
+    const arrowStyle = useAnimatedStyle(() => ({
+        opacity: hover.value,
+        transform: [
+            { translateX: 8 * (1 - hover.value) },
+            { translateY: 8 * (1 - hover.value) },
+        ],
+    }));
+
+    return (
+        <Pressable {...handlers}>
+            <Animated.View style={[styles.row, rowStyle]}>
+                <Animated.Text style={[styles.role, roleStyle]}>{item.role}</Animated.Text>
+                <View style={styles.rowRight}>
+                    <Text style={styles.company}>{item.company}</Text>
+                    <Text style={styles.period}>{item.period}</Text>
+                    <Animated.View style={arrowStyle}>
+                        <ArrowUpRight color={Colors.text} size={18} />
+                    </Animated.View>
+                </View>
+            </Animated.View>
+        </Pressable>
+    );
+}
+
 export default function WorkExperience() {
     return (
         <View style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.sectionHeader}>WORK</Text>
-                <Text style={styles.sectionHeader}>EXPERIENCE</Text>
-            </View>
+            <View style={styles.content}>
+                <SectionHeading align="center" inset={false} style={styles.heading}>
+                    Work Experience
+                </SectionHeading>
 
-            <View style={styles.list}>
-                {experience.map((job) => (
-                    <View key={job.id} style={styles.item}>
-                        <Text style={styles.role}>{job.role}</Text>
-
-                        <View style={styles.rightContent}>
-                            <Text style={styles.company}>{job.company}</Text>
-                            <Text style={styles.date}>{job.period}</Text>
-                        </View>
-                    </View>
-                ))}
+                {/* The list is narrower than the container and centred under the title. */}
+                <View style={styles.list}>
+                    {experience.map((item, i) => (
+                        <Reveal key={item.id} delay={i * 80}>
+                            <ExperienceRow item={item} />
+                            <View style={styles.line} />
+                        </Reveal>
+                    ))}
+                </View>
             </View>
         </View>
     );
@@ -37,55 +75,55 @@ export default function WorkExperience() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: '15%',
-        paddingVertical: 100,
+        paddingHorizontal: Layout.gutter,
+        paddingVertical: Layout.sectionSpacing,
         backgroundColor: Colors.background,
     },
-    headerContainer: {
+    content: {
+        width: '100%',
+        maxWidth: Layout.maxWidth,
+        alignSelf: 'center',
         alignItems: 'center',
+    },
+    heading: {
         marginBottom: 80,
     },
-    sectionHeader: {
-        color: Colors.text,
-        fontSize: 95, // Reduced by 5
-        fontFamily: 'Inter_700Bold', // Reduced boldness by 2 units
-        letterSpacing: -5,
-        textTransform: 'uppercase',
-        lineHeight: 90,
-        textAlign: 'center',
-    },
     list: {
-        maxWidth: 1000,
-        width: '100%',
-        alignSelf: 'center',
+        width: isPhone ? '100%' : '69%',
+        gap: 50,
     },
-    item: {
-        flexDirection: 'row',
+    row: {
+        paddingBottom: 24,
+        flexDirection: isPhone ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: 'baseline', // Align text baselines
-        paddingVertical: 40,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.border,
+        alignItems: isPhone ? 'flex-start' : 'center',
+        gap: isPhone ? 8 : 24,
+    },
+    line: {
+        height: 1,
+        width: '100%',
+        backgroundColor: Colors.line,
+    },
+    rowRight: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 20,
     },
     role: {
+        ...Type.cardTitle,
+        fontSize: isPhone ? 22 : 28,
+        lineHeight: isPhone ? 26 : 34,
         color: Colors.text,
-        fontSize: 32,
-        fontFamily: 'Inter_600SemiBold',
-        flex: 1,
-        letterSpacing: -1,
-    },
-    rightContent: {
-        alignItems: 'flex-end',
     },
     company: {
-        color: Colors.text,
-        fontSize: 16,
-        fontFamily: 'Inter_600SemiBold',
-        marginBottom: 4,
-    },
-    date: {
-        color: Colors.textSecondary,
-        fontSize: 14,
+        fontSize: 18,
+        lineHeight: 27,
+        letterSpacing: -0.54,
         fontFamily: 'Inter_500Medium',
+        color: Colors.text,
+    },
+    period: {
+        ...Type.small,
+        color: Colors.textMuted,
     },
 });

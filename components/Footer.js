@@ -1,54 +1,61 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { ArrowUpRight } from 'lucide-react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { Layout, Type, isPhone } from '../constants/Theme';
+import ArrowButton from './ui/ArrowButton';
+import Reveal from './ui/Reveal';
+import RollText from './ui/RollText';
+import useGridWidth from './ui/useGridWidth';
+
+const columns = [
+    { title: 'MAIN PAGES', links: ['Home', 'About', 'Project'] },
+    { title: 'UTILITY PAGES', links: ['Licenses', '404 Page'] },
+    { title: 'MORE PAGES', links: ['Services', 'Blog', 'Contact'] },
+    { title: 'SOCIALS', links: ['Instagram', 'Twitter', 'Linkedin'] },
+];
+
+const COLUMN_GAP = 24;
 
 export default function Footer() {
+    // The reference lays the four link groups out two per row, not four across.
+    const { onLayout, itemWidth } = useGridWidth(isPhone ? 1 : 2, COLUMN_GAP);
+
     return (
         <View style={styles.container}>
-            <View style={styles.contentContainer}>
-                {/* Left: CTA */}
-                <View style={styles.ctaContainer}>
-                    <Text style={styles.ctaText}>HAVE ANY PROJECT</Text>
-                    <Text style={styles.ctaText}>IDEA? CONTACT ME</Text>
+            <View style={styles.content}>
+                <View style={styles.top}>
+                    <Reveal style={styles.ctaBlock} offset={40}>
+                        <Text style={styles.cta}>Have any project idea? Contact me</Text>
+                        <ArrowButton label="Contact Now" />
+                    </Reveal>
 
-                    <Pressable style={styles.button}>
-                        <Text style={styles.buttonText}>Contact Now</Text>
-                        <ArrowUpRight color={Colors.background} size={20} />
-                    </Pressable>
+                    <View style={styles.columns} onLayout={onLayout}>
+                        {columns.map((column, i) => (
+                            <Reveal
+                                key={column.title}
+                                style={[styles.column, { width: itemWidth }]}
+                                delay={i * 70}
+                            >
+                                <Text style={styles.columnHeader}>{column.title}</Text>
+                                {column.links.map((link) => (
+                                    <RollText
+                                        key={link}
+                                        textStyle={styles.link}
+                                        color={Colors.textSecondary}
+                                        hoverColor={Colors.text}
+                                        style={styles.linkRow}
+                                    >
+                                        {link}
+                                    </RollText>
+                                ))}
+                            </Reveal>
+                        ))}
+                    </View>
                 </View>
 
-                {/* Right: Links */}
-                <View style={styles.linksContainer}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>MAIN PAGES</Text>
-                        <Text style={styles.link}>Home</Text>
-                        <Text style={styles.link}>About</Text>
-                        <Text style={styles.link}>Project</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>UTILITY PAGES</Text>
-                        <Text style={styles.link}>Licenses</Text>
-                        <Text style={styles.link}>404 Page</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>MORE PAGES</Text>
-                        <Text style={styles.link}>Services</Text>
-                        <Text style={styles.link}>Blog</Text>
-                        <Text style={styles.link}>Contact</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>SOCIALS</Text>
-                        <Text style={styles.link}>Instagram</Text>
-                        <Text style={styles.link}>Twitter</Text>
-                        <Text style={styles.link}>Linkedin</Text>
-                    </View>
+                <View style={styles.bottom}>
+                    <Text style={styles.copyright}>Copyright @ Jaxon Grayson. All Rights Reserved</Text>
                 </View>
-            </View>
-
-            <View style={styles.bottom}>
-                <View style={styles.divider} />
-                <Text style={styles.copyright}>Copyright © Jaxon Grayson. All Rights Reserved</Text>
             </View>
         </View>
     );
@@ -56,82 +63,53 @@ export default function Footer() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: '15%',
-        paddingTop: 60,
-        paddingBottom: 40,
+        paddingHorizontal: Layout.gutter,
+        paddingTop: isPhone ? 80 : 120,
+        paddingBottom: 28,
         backgroundColor: Colors.footerBackground,
     },
-    contentContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 60,
-        marginBottom: 60,
+    content: {
+        width: '100%',
+        maxWidth: Layout.maxWidth,
+        alignSelf: 'center',
+        gap: 30,
+    },
+    top: {
+        gap: 80,
+    },
+    ctaBlock: {
+        paddingHorizontal: Layout.headingInset,
+        gap: 30,
         alignItems: 'flex-start',
     },
-    ctaContainer: {
-        flex: 1.5,
-        minWidth: 300,
-    },
-    ctaText: {
+    cta: {
+        ...Type.cta,
         color: Colors.text,
-        fontSize: 58,
-        fontFamily: 'Inter_700Bold',
-        lineHeight: 70,
-        letterSpacing: -1,
-        textTransform: 'uppercase',
     },
-    button: {
-        backgroundColor: Colors.text,
-        paddingHorizontal: 30,
-        paddingVertical: 16,
-        borderRadius: 4,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-        marginTop: 40,
-        alignSelf: 'flex-start',
-    },
-    buttonText: {
-        color: Colors.background,
-        fontSize: 16,
-        fontFamily: 'Inter_600SemiBold',
-    },
-    linksContainer: {
-        flex: 1,
-        minWidth: 300,
+    columns: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        gap: 40,
+        gap: COLUMN_GAP,
     },
     column: {
-        minWidth: 100,
+        gap: 24,
     },
     columnHeader: {
+        ...Type.small,
+        fontFamily: 'Inter_700Bold',
         color: Colors.text,
-        fontSize: 14,
-        fontFamily: 'Inter_900Black',
-        marginBottom: 20,
-        textTransform: 'uppercase',
+    },
+    linkRow: {
+        alignSelf: 'flex-start',
     },
     link: {
-        color: Colors.textSecondary,
-        fontSize: 16,
-        fontFamily: 'Inter_400Regular',
-        marginBottom: 12,
+        ...Type.small,
     },
     bottom: {
-        width: '100%',
-    },
-    divider: {
-        height: 1,
-        backgroundColor: Colors.border,
-        marginBottom: 30,
+        paddingTop: 24,
     },
     copyright: {
-        color: Colors.textSecondary,
-        fontSize: 14,
-        fontFamily: 'Inter_400Regular',
-        textAlign: 'center',
+        ...Type.small,
+        color: Colors.textMuted,
     },
 });

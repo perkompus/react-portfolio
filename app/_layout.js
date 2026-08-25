@@ -19,7 +19,7 @@ export default function RootLayout() {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.background }}>
-            <StatusBar style="light" />
+            <StatusBar style="dark" />
             <Stack
                 screenOptions={{
                     headerShown: false,
@@ -36,11 +36,16 @@ export default function RootLayout() {
                         margin: 0;
                         padding: 0;
                         overflow-x: hidden;
+                        color: ${Colors.text};
+                        -webkit-font-smoothing: antialiased;
                     }
+                    /* Links and pressables should feel interactive, never selectable-on-drag. */
+                    a { text-decoration: none; color: inherit; }
+                    [role="button"], button { cursor: pointer; }
                     ::-webkit-scrollbar { width: 6px; }
                     ::-webkit-scrollbar-track { background: ${Colors.background}; }
-                    ::-webkit-scrollbar-thumb { background: ${Colors.border}; border-radius: 3px; }
-                    ::-webkit-scrollbar-thumb:hover { background: #404040; }
+                    ::-webkit-scrollbar-thumb { background: ${Colors.borderStrong}; border-radius: 3px; }
+                    ::-webkit-scrollbar-thumb:hover { background: #9a9a9a; }
                 `}</style>
             )}
         </View>

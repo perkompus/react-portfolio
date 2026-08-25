@@ -1,85 +1,72 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Link } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../constants/Colors';
-import { Menu, X, ArrowUpRight } from 'lucide-react-native';
+import { Layout, Type, isPhone } from '../constants/Theme';
+import ArrowButton from './ui/ArrowButton';
+import RollText from './ui/RollText';
 
+const links = ['Home', 'Projects', 'Services', 'About', 'Blog'];
+
+/**
+ * The reference header scrolls away with the page — no pinning, no background,
+ * no rounded pill. It is just a transparent bar at the top of the document.
+ */
 export default function Header() {
-    // Simple implementation for the requested layout
-    // In a real responsive app, we might toggle between this and a hamburger menu based on width
     return (
-        <View style={styles.container}>
-            {/* Left: Logo */}
-            <Link href="/" asChild>
-                <TouchableOpacity>
+        <View style={styles.wrapper}>
+            <View style={styles.bar}>
+                <Pressable>
                     <Text style={styles.logo}>Jaxon</Text>
-                </TouchableOpacity>
-            </Link>
+                </Pressable>
 
-            {/* Center: Navigation */}
-            <View style={styles.nav}>
-                <Link href="/" style={styles.navLink}>Home</Link>
-                <Link href="/projects" style={styles.navLink}>Projects</Link>
-                <Link href="/services" style={styles.navLink}>Services</Link>
-                <Link href="/about" style={styles.navLink}>About</Link>
-                <Link href="/blog" style={styles.navLink}>Blog</Link>
+                {!isPhone && (
+                    <View style={styles.nav}>
+                        {links.map((link) => (
+                            <RollText
+                                key={link}
+                                textStyle={styles.navLink}
+                                lineHeight={Type.small.lineHeight}
+                            >
+                                {link}
+                            </RollText>
+                        ))}
+                    </View>
+                )}
+
+                <ArrowButton label="Contact" variant="light" size="small" />
             </View>
-
-            {/* Right: Contact Button */}
-            <Link href="/contact" asChild>
-                <TouchableOpacity style={styles.contactButton}>
-                    <Text style={styles.contactText}>Contact</Text>
-                    <ArrowUpRight color={Colors.text} size={20} />
-                </TouchableOpacity>
-            </Link>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: '15%',
-        paddingVertical: 24,
+    wrapper: {
+        width: '100%',
+        paddingHorizontal: Layout.gutter,
+        paddingVertical: 20,
         backgroundColor: Colors.background,
-        zIndex: 100,
+    },
+    bar: {
+        width: '100%',
+        maxWidth: Layout.maxWidth,
+        alignSelf: 'center',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     logo: {
         color: Colors.text,
         fontSize: 24,
-        fontFamily: 'Inter_900Black',
-        letterSpacing: -0.5,
+        fontFamily: 'Inter_700Bold',
+        letterSpacing: -1,
     },
     nav: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 32,
-        // Hide nav on very small screens if needed, but for now we display as requested
-        display: 'flex',
+        gap: 40,
     },
     navLink: {
-        color: Colors.textSecondary,
-        fontSize: 15,
-        fontFamily: 'Inter_500Medium',
-        textDecorationLine: 'none', // Remove default link underline
-        marginHorizontal: 10,
-    },
-    contactButton: {
-        backgroundColor: Colors.background, // White background
-        paddingHorizontal: 20,
-        paddingVertical: 12,
-        borderRadius: 8, // Slightly less rounded based on screenshot
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-        borderWidth: 1,
-        borderColor: Colors.border, // Light border
-    },
-    contactText: {
-        color: Colors.text, // Black text
-        fontSize: 15,
-        fontFamily: 'Inter_600SemiBold',
+        ...Type.small,
+        color: Colors.text,
     },
 });

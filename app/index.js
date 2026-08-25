@@ -1,8 +1,7 @@
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack } from 'expo-router';
-import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import React, { useCallback, useRef } from 'react';
+import Animated, { runOnJS, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
 import { Colors } from '../constants/Colors';
 import { ScrollContext } from '../contexts/ScrollContext';
 
@@ -16,21 +15,36 @@ import Reviews from '../components/Reviews';
 import FAQ from '../components/FAQ';
 import Articles from '../components/Articles';
 import Footer from '../components/Footer';
-import AnimatedSection from '../components/AnimatedSection';
 
 export default function Home() {
     const scrollY = useSharedValue(0);
+    const listeners = useRef(new Set());
+
+    const subscribe = useCallback((listener) => {
+        listeners.current.add(listener);
+        return () => listeners.current.delete(listener);
+    }, []);
+
+    const notify = useCallback((y) => {
+        listeners.current.forEach((listener) => listener(y));
+    }, []);
+
+    // The shared value stays on the UI thread for frame-accurate parallax; the
+    // JS-side notification is what lets one-shot reveals start their animation.
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
             scrollY.value = event.contentOffset.y;
+            runOnJS(notify)(event.contentOffset.y);
         },
     });
 
+    const scroll = React.useMemo(() => ({ scrollY, subscribe }), [scrollY, subscribe]);
+
     return (
-        <ScrollContext.Provider value={scrollY}>
-            <SafeAreaView style={styles.container} edges={['top']}>
+        <ScrollContext.Provider value={scroll}>
+            <View style={styles.container}>
                 <Stack.Screen options={{ headerShown: false }} />
-                <Header />
+
                 <Animated.ScrollView
                     style={styles.scrollView}
                     contentContainerStyle={styles.content}
@@ -38,17 +52,18 @@ export default function Home() {
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
                 >
+                    <Header />
                     <Hero />
-                    <AnimatedSection><Services /></AnimatedSection>
-                    <AnimatedSection><Projects /></AnimatedSection>
-                    <AnimatedSection><WorkExperience /></AnimatedSection>
-                    <AnimatedSection><SomeNumbers /></AnimatedSection>
-                    <AnimatedSection><Reviews /></AnimatedSection>
-                    <AnimatedSection><FAQ /></AnimatedSection>
-                    <AnimatedSection><Articles /></AnimatedSection>
-                    <AnimatedSection><Footer /></AnimatedSection>
+                    <Services />
+                    <Projects />
+                    <WorkExperience />
+                    <SomeNumbers />
+                    <Reviews />
+                    <FAQ />
+                    <Articles />
+                    <Footer />
                 </Animated.ScrollView>
-            </SafeAreaView>
+            </View>
         </ScrollContext.Provider>
     );
 }
