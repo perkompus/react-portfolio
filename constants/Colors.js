@@ -1,13 +1,13 @@
 export const Colors = {
-    background: '#050505', // Near black for deep contrast
-    text: '#ffffff', // Pure white text
-    textSecondary: '#a1a1aa', // Light gray for secondary text
-    accent: '#ffffff', // White accent
-    card: '#0a0a0a', // Slightly lighter black for cards
-    border: '#262626', // Dark gray border
-    gradientStart: '#171717', // Dark gray for gradients
-    gradientEnd: '#050505',
-    button: '#ffffff',
-    buttonText: '#000000',
-    footerBackground: '#141414', // Slightly lighter for footer contrast
+    background: '#ffffff', // Pure white background
+    text: '#0a0a0a', // Near black text
+    textSecondary: '#52525b', // Mid gray for secondary text
+    accent: '#0a0a0a', // Black accent
+    card: '#f5f5f5', // Light gray for cards
+    border: '#e5e5e5', // Light gray border
+    gradientStart: '#f5f5f5', // Light gray for gradients
+    gradientEnd: '#ffffff',
+    button: '#0a0a0a',
+    buttonText: '#ffffff',
+    footerBackground: '#f5f5f5', // Slightly darker for footer contrast
 };

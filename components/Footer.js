@@ -1,47 +1,79 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Linking } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
+import HoverFillButton from './HoverFillButton';
+import RollingLink from './RollingLink';
+import useSectionNavigate from './useSectionNavigate';
 import { ArrowUpRight } from 'lucide-react-native/icons';
 
-export default function Footer() {
-    return (
-        <View style={styles.container}>
-            <View style={styles.contentContainer}>
-                {/* Left Side: Call to Action */}
-                <View style={styles.ctaContainer}>
-                    <Text style={styles.ctaText}>HAVE ANY PROJECT</Text>
-                    <Text style={styles.ctaText}>IDEA? CONTACT ME</Text>
+export default function Footer({ onNavigate }) {
+    const isMobile = useIsMobile();
+    const router = useRouter();
+    const navigate = useSectionNavigate(onNavigate);
 
-                    <Pressable style={styles.button}>
-                        <Text style={styles.buttonText}>Contact Now</Text>
-                        <ArrowUpRight color={Colors.background} size={20} />
-                    </Pressable>
+    const columns = [
+        {
+            title: 'MAIN PAGES',
+            links: [
+                { label: 'Home', onPress: () => navigate('home') },
+                { label: 'About', onPress: () => navigate('about') },
+                { label: 'Project', onPress: () => navigate('projects') },
+            ],
+        },
+        {
+            title: 'UTILITY PAGES',
+            links: [
+                { label: 'Licenses', onPress: () => router.push('/licenses') },
+                { label: '404 Page', onPress: () => router.push('/404') },
+            ],
+        },
+        {
+            title: 'MORE PAGES',
+            links: [
+                { label: 'Services', onPress: () => navigate('services') },
+                { label: 'Blog', onPress: () => navigate('blog') },
+                { label: 'Contact', onPress: () => navigate('contact') },
+            ],
+        },
+        {
+            title: 'SOCIALS',
+            links: [
+                { label: 'Instagram', onPress: () => Linking.openURL('https://instagram.com') },
+                { label: 'Twitter', onPress: () => Linking.openURL('https://twitter.com') },
+                { label: 'Linkedin', onPress: () => Linking.openURL('https://linkedin.com') },
+            ],
+        },
+    ];
+
+    return (
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
+            <View style={[styles.contentContainer, isMobile && mobile.contentContainer]}>
+                {/* Left Side: Call to Action */}
+                <View style={[styles.ctaContainer, isMobile && mobile.fullWidth]}>
+                    <Text style={[styles.ctaText, isMobile && mobile.ctaText]}>HAVE ANY PROJECT</Text>
+                    <Text style={[styles.ctaText, isMobile && mobile.ctaText]}>IDEA? CONTACT ME</Text>
+
+                    <HoverFillButton style={styles.button} fillColor={Colors.background}>
+                        {(hovered) => (
+                            <>
+                                <Text style={[styles.buttonText, hovered && styles.buttonTextHovered]}>Contact Now</Text>
+                                <ArrowUpRight color={hovered ? Colors.text : Colors.background} size={20} />
+                            </>
+                        )}
+                    </HoverFillButton>
                 </View>
 
                 {/* Right Side: Links */}
-                <View style={styles.linksContainer}>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>MAIN PAGES</Text>
-                        <Text style={styles.link}>Home</Text>
-                        <Text style={styles.link}>About</Text>
-                        <Text style={styles.link}>Project</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>UTILITY PAGES</Text>
-                        <Text style={styles.link}>Licenses</Text>
-                        <Text style={styles.link}>404 Page</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>MORE PAGES</Text>
-                        <Text style={styles.link}>Services</Text>
-                        <Text style={styles.link}>Blog</Text>
-                        <Text style={styles.link}>Contact</Text>
-                    </View>
-                    <View style={styles.column}>
-                        <Text style={styles.columnHeader}>SOCIALS</Text>
-                        <Text style={styles.link}>Instagram</Text>
-                        <Text style={styles.link}>Twitter</Text>
-                        <Text style={styles.link}>Linkedin</Text>
-                    </View>
+                <View style={[styles.linksContainer, isMobile && mobile.links]}>
+                    {columns.map((column) => (
+                        <View key={column.title} style={styles.column}>
+                            <Text style={styles.columnHeader}>{column.title}</Text>
+                            {column.links.map((link) => (
+                                <RollingLink key={link.label} label={link.label} onPress={link.onPress} style={styles.link} />
+                            ))}
+                        </View>
+                    ))}
                 </View>
             </View>
 
@@ -90,22 +122,29 @@ const styles = StyleSheet.create({
         gap: 10,
         marginTop: 40,
         alignSelf: 'flex-start',
+        borderWidth: 1,
+        borderColor: Colors.text,
     },
     buttonText: {
         color: Colors.background,
         fontSize: 16,
         fontFamily: 'Inter_600SemiBold',
+        transitionProperty: 'color',
+        transitionDuration: '350ms',
+    },
+    buttonTextHovered: {
+        color: Colors.text,
     },
     linksContainer: {
         flex: 1, // Smaller ratio to keep it closer to CTA if needed, or just let them sit side by side
         minWidth: 300,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        gap: 40,
+        rowGap: 40,
     },
     column: {
-        minWidth: 100,
+        width: '50%', // Even 2x2 grid so columns line up across rows
+        paddingRight: 16,
     },
     columnHeader: {
         color: Colors.text,
@@ -115,9 +154,6 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
     },
     link: {
-        color: Colors.textSecondary,
-        fontSize: 16,
-        fontFamily: 'Inter_400Regular',
         marginBottom: 12,
     },
     bottom: {
@@ -133,5 +169,32 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'Inter_400Regular',
         textAlign: 'center',
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    contentContainer: {
+        flexDirection: 'column',
+        gap: 50,
+    },
+    // Natural height when stacked; plain `flex: 0` keeps a 0 basis and collapses the block
+    fullWidth: {
+        flexGrow: 0,
+        flexShrink: 0,
+        flexBasis: 'auto',
+        width: '100%',
+    },
+    links: {
+        flexGrow: 0,
+        flexShrink: 0,
+        flexBasis: 'auto',
+        width: '100%',
+        minWidth: 0,
+        rowGap: 32,
+    },
+    ctaText: {
+        fontSize: 32,
+        lineHeight: 38,
     },
 });

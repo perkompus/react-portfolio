@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
 
 const services = [
     { id: '01', title: 'Branding', items: ['Brand', 'Strategy', 'Communication'], desc: 'Branding builds trust, defines identity, and connects emotionally through consistent visuals and messaging.' },
@@ -10,12 +11,13 @@ const services = [
 ];
 
 export default function Services() {
+    const isMobile = useIsMobile();
     return (
-        <View style={styles.container}>
-            <View style={styles.contentContainer}>
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
+            <View style={[styles.contentContainer, isMobile && mobileStyles.columns]}>
                 {/* Left Side: Huge Title */}
                 <View style={styles.leftColumn}>
-                    <Text style={styles.sectionHeader}>SERVICES</Text>
+                    <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>SERVICES</Text>
                 </View>
 
                 {/* Right Side: List of Services */}
@@ -27,7 +29,7 @@ export default function Services() {
                                 <Text style={styles.serviceTags}>{service.items.join(' • ')}</Text>
                             </View>
 
-                            <Text style={styles.serviceTitle}>{service.title}</Text>
+                            <Text style={[styles.serviceTitle, isMobile && mobile.serviceTitle]}>{service.title}</Text>
 
                             <Text style={styles.serviceDesc}>{service.desc}</Text>
 
@@ -104,5 +106,12 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: Colors.border,
         marginTop: 60,
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    serviceTitle: {
+        fontSize: 30,
     },
 });

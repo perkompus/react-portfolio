@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, Image as RNImage } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
 import { Calendar } from 'lucide-react-native/icons';
 
 const articles = [
@@ -10,13 +11,14 @@ const articles = [
 ];
 
 export default function Articles() {
+    const isMobile = useIsMobile();
     return (
-        <View style={styles.container}>
-            <Text style={styles.sectionHeader}>ARTICLES</Text>
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
+            <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>ARTICLES</Text>
 
             <View style={styles.grid}>
                 {articles.map((article) => (
-                    <Pressable key={article.id} style={styles.card}>
+                    <Pressable key={article.id} style={[styles.card, isMobile && mobile.card]}>
                         <View style={styles.imageContainer}>
                             <RNImage source={{ uri: article.image }} style={styles.image} resizeMode="cover" />
                         </View>
@@ -154,5 +156,13 @@ const styles = StyleSheet.create({
         color: Colors.text,
         fontSize: 14,
         fontFamily: 'Inter_600SemiBold',
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    card: {
+        flexBasis: 'auto',
+        maxWidth: '100%',
     },
 });

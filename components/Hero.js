@@ -1,39 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Image as RNImage } from 'react-native';
-import Animated, { FadeInDown } from 'react-native-reanimated';
+import Animated, { FadeInDown, Easing, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 import { ArrowUpRight } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from '../constants/Colors';
+import HoverFillButton from './HoverFillButton';
+import { useIsMobile } from '../constants/responsive';
 
 const { width } = Dimensions.get('window');
 
-export default function Hero() {
-    return (
-        <View style={styles.container}>
-            {/* Background Gradient Effect - subtle */}
-            {/* Background Gradient Effect - Removed for pure black theme */}\n
+// Slides a line in horizontally from `from` px offset (negative = left, positive = right)
+function useSlideIn(from, delay) {
+    const progress = useSharedValue(0);
 
+    useEffect(() => {
+        progress.value = withDelay(delay, withTiming(1, { duration: 1200, easing: Easing.out(Easing.cubic) }));
+    }, []);
+
+    return useAnimatedStyle(() => ({
+        opacity: progress.value,
+        transform: [{ translateX: from * (1 - progress.value) }],
+    }));
+}
+
+export default function Hero({ onContact }) {
+    const isMobile = useIsMobile();
+    const slideDistance = isMobile ? 40 : 80;
+    const greetingStyle = useSlideIn(-slideDistance, 200);
+    const designerStyle = useSlideIn(-slideDistance, 400);
+    const developerStyle = useSlideIn(slideDistance, 400);
+
+    return (
+        <View style={[styles.container, isMobile && mobile.container]}>
             <View style={styles.content}>
                 {/* Header Content: Greeting & Title */}
-                <View style={styles.headerContent}>
-                    <Animated.Text
-                        entering={FadeInDown.delay(200).duration(1000)}
-                        style={styles.greeting}
-                    >
+                <View style={[styles.headerContent, isMobile && mobile.headerContent]}>
+                    <Animated.Text style={[styles.greeting, isMobile && mobile.greeting, greetingStyle]}>
                         Hello, I’m Jaxon Grayson
                     </Animated.Text>
 
                     <View style={styles.titleContainer}>
-                        <Animated.Text
-                            entering={FadeInDown.delay(400).duration(1000)}
-                            style={styles.title}
-                        >
+                        <Animated.Text style={[styles.title, isMobile && mobile.title, designerStyle]}>
                             DESIGNER +
                         </Animated.Text>
-                        <Animated.Text
-                            entering={FadeInDown.delay(600).duration(1000)}
-                            style={styles.title}
-                        >
+                        <Animated.Text style={[styles.title, isMobile && mobile.title, developerStyle]}>
                             DEVELOPER
                         </Animated.Text>
                     </View>
@@ -42,20 +52,24 @@ export default function Hero() {
                 {/* Split Section: Description & Image */}
                 <Animated.View
                     entering={FadeInDown.delay(800).duration(1000)}
-                    style={styles.splitSection}
+                    style={[styles.splitSection, isMobile && mobile.splitSection]}
                 >
-                    <View style={styles.leftColumn}>
-                        <Text style={styles.description}>
+                    <View style={[styles.leftColumn, isMobile && mobile.column]}>
+                        <Text style={[styles.description, isMobile && mobile.description]}>
                             A visionary Art Director from Brooklyn, showcases a portfolio of visually stunning campaigns that blend artistry and innovation. His work spans multiple mediums, from print to digital, and demonstrates a keen eye for bold typography, striking imagery, and compelling storytelling.
                         </Text>
 
-                        <TouchableOpacity style={styles.ctaButton}>
-                            <Text style={styles.ctaText}>Contact Now</Text>
-                            <ArrowUpRight color={Colors.background} size={20} />
-                        </TouchableOpacity>
+                        <HoverFillButton style={styles.ctaButton} fillColor={Colors.background} onPress={onContact}>
+                            {(hovered) => (
+                                <>
+                                    <Text style={[styles.ctaText, hovered && styles.ctaTextHovered]}>Contact Now</Text>
+                                    <ArrowUpRight color={hovered ? Colors.text : Colors.background} size={20} />
+                                </>
+                            )}
+                        </HoverFillButton>
                     </View>
 
-                    <View style={styles.rightColumn}>
+                    <View style={[styles.rightColumn, isMobile && mobile.rightColumn]}>
                         {/* 
                             Note: The exact image from the screenshot is not available in the provided context.
                             Using a high-quality placeholder that fits the aesthetic.
@@ -71,15 +85,15 @@ export default function Hero() {
                 {/* Featured Clients Section */}
                 <Animated.View
                     entering={FadeInDown.delay(1000).duration(1000)}
-                    style={styles.clientsSection}
+                    style={[styles.clientsSection, isMobile && mobile.clientsSection]}
                 >
                     <Text style={styles.clientsLabel}>TRUSTED BY</Text>
-                    <View style={styles.logoRow}>
-                        <Text style={styles.logoText}>DCODE</Text>
-                        <Text style={styles.logoText}>TECHFLOW</Text>
-                        <Text style={styles.logoText}>GROWTHCO</Text>
-                        <Text style={styles.logoText}>LUMINOUS</Text>
-                        <Text style={styles.logoText}>ASPECT</Text>
+                    <View style={[styles.logoRow, isMobile && mobile.logoRow]}>
+                        <Text style={[styles.logoText, isMobile && mobile.logoText]}>DCODE</Text>
+                        <Text style={[styles.logoText, isMobile && mobile.logoText]}>TECHFLOW</Text>
+                        <Text style={[styles.logoText, isMobile && mobile.logoText]}>GROWTHCO</Text>
+                        <Text style={[styles.logoText, isMobile && mobile.logoText]}>LUMINOUS</Text>
+                        <Text style={[styles.logoText, isMobile && mobile.logoText]}>ASPECT</Text>
                     </View>
                 </Animated.View>
             </View>
@@ -89,6 +103,7 @@ export default function Hero() {
 
 const styles = StyleSheet.create({
     container: {
+        overflow: 'hidden', // Keep sliding title lines from causing horizontal scroll
         paddingHorizontal: '15%',
         paddingTop: 60,
         paddingBottom: 80,
@@ -161,11 +176,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
+        borderWidth: 1,
+        borderColor: Colors.text,
     },
     ctaText: {
         color: Colors.background,
         fontSize: 16,
         fontFamily: 'Inter_600SemiBold',
+        transitionProperty: 'color',
+        transitionDuration: '350ms',
+    },
+    ctaTextHovered: {
+        color: Colors.text,
     },
     heroImage: {
         width: '100%',
@@ -196,5 +218,55 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontFamily: 'Inter_700Bold', // Simulating logos with bold text
         letterSpacing: -1,
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    container: {
+        paddingHorizontal: 20,
+        paddingTop: 40,
+        paddingBottom: 60,
+        minHeight: 0,
+    },
+    headerContent: {
+        marginBottom: 40,
+    },
+    greeting: {
+        fontSize: 18,
+        marginBottom: 12,
+    },
+    title: {
+        fontSize: 52,
+        lineHeight: 50,
+        letterSpacing: -2,
+    },
+    splitSection: {
+        gap: 32,
+    },
+    column: {
+        minWidth: 0,
+        flexBasis: '100%',
+        paddingTop: 0,
+    },
+    description: {
+        fontSize: 16,
+        lineHeight: 26,
+        marginBottom: 28,
+    },
+    rightColumn: {
+        minWidth: 0,
+        flexBasis: '100%',
+        height: 420,
+    },
+    clientsSection: {
+        marginTop: 50,
+        paddingTop: 30,
+    },
+    logoRow: {
+        gap: 24,
+    },
+    logoText: {
+        fontSize: 18,
     },
 });
