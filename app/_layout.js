@@ -23,6 +23,7 @@ export default function RootLayout() {
             <Stack
                 screenOptions={{
                     headerShown: false,
+                    animation: 'fade',
                     contentStyle: { backgroundColor: Colors.background },
                 }}
             />
@@ -31,6 +32,10 @@ export default function RootLayout() {
           body {
             background-color: ${Colors.background};
             font-family: 'Inter_400Regular', sans-serif;
+          }
+          /* Icons fade their color in step with the button hover fade */
+          svg, svg * {
+            transition: stroke 350ms ease, fill 350ms ease;
           }
         `}</style>
             )}

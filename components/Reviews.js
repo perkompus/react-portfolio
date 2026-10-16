@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Image as RNImage, ScrollView, Dimensions, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image as RNImage, ScrollView, useWindowDimensions } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
+import HoverFillButton from './HoverFillButton';
 
 const reviews = [
     { id: 1, name: 'Juli Fulk', role: 'Founder & CEO', company: 'Dcode Agency', text: 'Jaxon is a true professional. He delivered the project on time and exceeded our expectations. His attention to detail is unmatched.', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop' },
@@ -8,10 +10,11 @@ const reviews = [
     { id: 3, name: 'Sarah Lee', role: 'Marketing Director', company: 'GrowthCo', text: 'Incredible work on the rebranding. The new visual identity perfectly captures our company values and mission.', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop' },
 ];
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-const CARD_WIDTH = SCREEN_WIDTH > 768 ? (SCREEN_WIDTH - 140) / 2 : SCREEN_WIDTH * 0.8; // Show 2 on desktop, 1 on mobile
 
 export default function Reviews() {
+    const isMobile = useIsMobile();
+    const { width: screenWidth } = useWindowDimensions();
+    const CARD_WIDTH = isMobile ? screenWidth - 60 : (screenWidth - 140) / 2; // 1 card on mobile, 2 on desktop
     const scrollViewRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -36,21 +39,25 @@ export default function Reviews() {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
             {/* Header Row: Title + Arrows */}
-            <View style={styles.headerRow}>
+            <View style={[styles.headerRow, isMobile && mobile.headerRow]}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.sectionHeader}>CLIENT</Text>
-                    <Text style={styles.sectionHeader}>REVIEWS</Text>
+                    <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>CLIENT</Text>
+                    <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>REVIEWS</Text>
                 </View>
 
                 <View style={styles.navButtons}>
-                    <Pressable onPress={() => handleScroll('prev')} style={styles.navButton}>
-                        <Text style={styles.navArrow}>←</Text>
-                    </Pressable>
-                    <Pressable onPress={() => handleScroll('next')} style={styles.navButton}>
-                        <Text style={styles.navArrow}>→</Text>
-                    </Pressable>
+                    <HoverFillButton onPress={() => handleScroll('prev')} style={styles.navButton}>
+                        {(hovered) => (
+                            <Text style={[styles.navArrow, hovered && styles.navArrowHovered]}>←</Text>
+                        )}
+                    </HoverFillButton>
+                    <HoverFillButton onPress={() => handleScroll('next')} style={styles.navButton}>
+                        {(hovered) => (
+                            <Text style={[styles.navArrow, hovered && styles.navArrowHovered]}>→</Text>
+                        )}
+                    </HoverFillButton>
                 </View>
             </View>
 
@@ -65,8 +72,8 @@ export default function Reviews() {
                 snapToInterval={CARD_WIDTH + 20}
             >
                 {reviews.map((review) => (
-                    <View key={review.id} style={[styles.reviewCard, { width: CARD_WIDTH }]}>
-                        <Text style={styles.reviewText}>
+                    <View key={review.id} style={[styles.reviewCard, isMobile && mobile.reviewCard, { width: CARD_WIDTH }]}>
+                        <Text style={[styles.reviewText, isMobile && mobile.reviewText]}>
                             "{review.text}"
                         </Text>
 
@@ -119,7 +126,7 @@ const styles = StyleSheet.create({
     navButton: {
         width: 80, // Increased width for boxy rectangular look
         height: 50,
-        backgroundColor: Colors.border, // Dark gray in dark mode
+        backgroundColor: Colors.background,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 0, // BOXY: Sharp corners
@@ -127,8 +134,13 @@ const styles = StyleSheet.create({
         borderColor: Colors.text, // Add border to define the box
     },
     navArrow: {
-        color: Colors.text, // White in dark mode
+        color: Colors.text,
         fontSize: 24,
+        transitionProperty: 'color',
+        transitionDuration: '350ms',
+    },
+    navArrowHovered: {
+        color: Colors.background,
     },
     scrollContent: {
         paddingHorizontal: 40, // Padding for the scroll view start
@@ -167,5 +179,24 @@ const styles = StyleSheet.create({
         color: Colors.textSecondary,
         fontSize: 14,
         fontFamily: 'Inter_500Medium',
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    headerRow: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 24,
+        marginBottom: 32,
+    },
+    reviewCard: {
+        padding: 28,
+        marginRight: 12,
+    },
+    reviewText: {
+        fontSize: 20,
+        lineHeight: 30,
+        marginBottom: 28,
     },
 });

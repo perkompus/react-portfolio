@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
 
 const stats = [
     { value: '16', label: 'Years of experience' },
@@ -12,13 +13,14 @@ const stats = [
 ];
 
 export default function SomeNumbers() {
+    const isMobile = useIsMobile();
     return (
-        <View style={styles.container}>
-            <View style={styles.contentContainer}>
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
+            <View style={[styles.contentContainer, isMobile && mobileStyles.columns]}>
                 {/* Left Side: Title */}
                 <View style={styles.leftColumn}>
-                    <Text style={styles.sectionHeader}>SOME</Text>
-                    <Text style={styles.sectionHeader}>NUMBERS</Text>
+                    <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>SOME</Text>
+                    <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>NUMBERS</Text>
                 </View>
 
                 {/* Right Side: Stats Grid */}
@@ -26,7 +28,7 @@ export default function SomeNumbers() {
                     <View style={styles.grid}>
                         {stats.map((stat, index) => (
                             <View key={index} style={styles.statItem}>
-                                <Text style={styles.statValue}>{stat.value}</Text>
+                                <Text style={[styles.statValue, isMobile && mobile.statValue]}>{stat.value}</Text>
                                 <Text style={styles.statLabel}>{stat.label}</Text>
                             </View>
                         ))}
@@ -85,5 +87,12 @@ const styles = StyleSheet.create({
         color: Colors.textSecondary,
         fontSize: 16,
         fontFamily: 'Inter_500Medium',
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    statValue: {
+        fontSize: 48,
     },
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
 
 const experience = [
     // Duplicates removed
@@ -12,19 +13,20 @@ const experience = [
 ];
 
 export default function WorkExperience() {
+    const isMobile = useIsMobile();
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
             <View style={styles.headerContainer}>
-                <Text style={styles.sectionHeader}>WORK</Text>
-                <Text style={styles.sectionHeader}>EXPERIENCE</Text>
+                <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>WORK</Text>
+                <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>EXPERIENCE</Text>
             </View>
 
             <View style={styles.list}>
                 {experience.map((job) => (
-                    <View key={job.id} style={styles.item}>
-                        <Text style={styles.role}>{job.role}</Text>
+                    <View key={job.id} style={[styles.item, isMobile && mobile.item]}>
+                        <Text style={[styles.role, isMobile && mobile.role]}>{job.role}</Text>
 
-                        <View style={styles.rightContent}>
+                        <View style={[styles.rightContent, isMobile && mobile.rightContent]}>
                             <Text style={styles.company}>{job.company}</Text>
                             <Text style={styles.date}>{job.period}</Text>
                         </View>
@@ -87,5 +89,21 @@ const styles = StyleSheet.create({
         color: Colors.textSecondary,
         fontSize: 14,
         fontFamily: 'Inter_500Medium',
+    },
+});
+
+// Phone overrides
+const mobile = StyleSheet.create({
+    item: {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 8,
+        paddingVertical: 24,
+    },
+    role: {
+        fontSize: 24,
+    },
+    rightContent: {
+        alignItems: 'flex-start',
     },
 });

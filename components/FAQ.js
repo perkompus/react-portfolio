@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Colors } from '../constants/Colors';
+import { useIsMobile, mobileStyles } from '../constants/responsive';
 import Animated, { useAnimatedStyle, withTiming, useSharedValue } from 'react-native-reanimated';
 import { ChevronDown, ChevronUp } from 'lucide-react-native';
 
@@ -13,14 +14,15 @@ const faqs = [
 ];
 
 export default function FAQ() {
+    const isMobile = useIsMobile();
     const [openId, setOpenId] = useState(null);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.contentContainer}>
+        <View style={[styles.container, isMobile && mobileStyles.section]}>
+            <View style={[styles.contentContainer, isMobile && mobileStyles.columns]}>
                 {/* Left Side: Title */}
                 <View style={styles.leftColumn}>
-                    <Text style={styles.sectionHeader}>FAQ</Text>
+                    <Text style={[styles.sectionHeader, isMobile && mobileStyles.heading]}>FAQ</Text>
                 </View>
 
                 {/* Right Side: Questions */}
